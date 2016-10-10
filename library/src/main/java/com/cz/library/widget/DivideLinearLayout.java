@@ -155,7 +155,6 @@ public class DivideLinearLayout extends LinearLayout {
         if(null==divideDrawable)return;
         int width = getWidth();
         int height = getHeight();
-
         if (drawLeft) {
             divideDrawable.setBounds(0, dividePadding, strokeSize, height - dividePadding);
             divideDrawable.draw(canvas);
@@ -172,7 +171,6 @@ public class DivideLinearLayout extends LinearLayout {
             divideDrawable.setBounds(dividePadding + leftPadding, height - strokeSize, width - dividePadding, height);
             divideDrawable.draw(canvas);
         }
-
     }
 
     /**

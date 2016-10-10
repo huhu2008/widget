@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Item("WaveImageView", "com.cz.app.ui.WaveImageViewFragment", ""));
         items.add(new Item("TimeDownView", "com.cz.app.ui.TimeViewFragment", ""));
         items.add(new Item("BothTextView", "com.cz.app.ui.BothTextViewFragment", ""));
-        items.add(new Item("BothTextView", "com.cz.app.ui.BothTextViewFragment", ""));
         items.add(new Item("EditLayout", "com.cz.app.ui.EditLayoutFragment", ""));
         items.add(new Item("DialView", "com.cz.app.ui.DialViewFragment", ""));
         items.add(new Item("ShadowView", "com.cz.app.ui.ShadowFragment", ""));

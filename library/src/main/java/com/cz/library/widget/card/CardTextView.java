@@ -6,7 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.shapes.Shape;
+import android.os.Build;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.TextView;
 
 import com.cz.library.R;
@@ -23,7 +25,7 @@ public class CardTextView extends DivideTextView {
     private float contentTopPadding;
     private float contentRightPadding;
     private float contentBottomPadding;
-    private final OvalShadowDrawable shadowDrawable;
+    private RectShadowDrawable shadowDrawable;
 
     public CardTextView(Context context) {
         this(context,null);
@@ -31,17 +33,24 @@ public class CardTextView extends DivideTextView {
 
     public CardTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.shadowDrawable=new OvalShadowDrawable();
+        this.shadowDrawable=new RectShadowDrawable();
+        setLayerType(View.LAYER_TYPE_SOFTWARE, this.shadowDrawable.getPaint());
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CardTextView);
         setContentLeftPadding(a.getDimension(R.styleable.CardTextView_cv_contentLeftPadding,0));
         setContentTopPadding(a.getDimension(R.styleable.CardTextView_cv_contentTopPadding,0));
         setContentRightPadding(a.getDimension(R.styleable.CardTextView_cv_contentRightPadding,0));
         setContentBottomPadding(a.getDimension(R.styleable.CardTextView_cv_contentBottomPadding,0));
-        setCornerRadius(a.getDimension(R.styleable.CardTextView_cv_cardCornerRadius,0));
-        setCardBackgroundColor(a.getColor(R.styleable.CardTextView_cv_cardBackgroundColor, Color.WHITE));
-        setCardElevation(a.getDimension(R.styleable.CardTextView_cv_cardElevation,0));
+//        setCornerRadius(a.getDimension(R.styleable.CardTextView_cv_cardCornerRadius,0));
+//        setCardBackgroundColor(a.getColor(R.styleable.CardTextView_cv_cardBackgroundColor, Color.WHITE));
+//        setCardElevation(a.getDimension(R.styleable.CardTextView_cv_cardElevation,0));
 //        setCardType(a.getInt(R.styleable.CardTextView_cv_cardType,RECT));
         a.recycle();
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        this.shadowDrawable.setBounds(10,10,w-10,h-10);
     }
 
     public void setContentLeftPadding(float padding) {
@@ -77,11 +86,10 @@ public class CardTextView extends DivideTextView {
     }
 
 
+
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        shadowDrawable.setBounds(0,0,getWidth(),getHeight());
         shadowDrawable.draw(canvas);
-
+        super.onDraw(canvas);
     }
 }
