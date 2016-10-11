@@ -504,14 +504,36 @@
     </declare-styleable>
 
     <declare-styleable name="CardTextView">
-        <attr name="cv_contentLeftPadding" format="dimension"/>
-        <attr name="cv_contentTopPadding" format="dimension"/>
-        <attr name="cv_contentRightPadding" format="dimension"/>
-        <attr name="cv_contentBottomPadding" format="dimension"/>
-        <attr name="cv_cardBackgroundColor" format="dimension"/>
+        <attr name="cv_contentPadding" format="dimension"/>
+        <attr name="cv_cardBackgroundColor" format="color"/>
+        <attr name="cv_cardBackgroundPressColor" format="color"/>
         <attr name="cv_cardCornerRadius" format="dimension"/>
         <attr name="cv_cardElevation" format="dimension"/>
         <attr name="cv_cardType" format="enum">
+            <enum name="rect" value="0x00"/>
+            <enum name="oval" value="0x01"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CardLinearLayout">
+        <attr name="cl_contentPadding" format="dimension"/>
+        <attr name="cl_cardBackgroundColor" format="color"/>
+        <attr name="cl_cardBackgroundPressColor" format="color"/>
+        <attr name="cl_cardCornerRadius" format="dimension"/>
+        <attr name="cl_cardElevation" format="dimension"/>
+        <attr name="cl_cardType" format="enum">
+            <enum name="rect" value="0x00"/>
+            <enum name="oval" value="0x01"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CardRelativeLayout">
+        <attr name="cr_contentPadding" format="dimension"/>
+        <attr name="cr_cardBackgroundColor" format="color"/>
+        <attr name="cr_cardBackgroundPressColor" format="color"/>
+        <attr name="cr_cardCornerRadius" format="dimension"/>
+        <attr name="cr_cardElevation" format="dimension"/>
+        <attr name="cr_cardType" format="enum">
             <enum name="rect" value="0x00"/>
             <enum name="oval" value="0x01"/>
         </attr>

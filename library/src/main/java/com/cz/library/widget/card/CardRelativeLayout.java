@@ -11,36 +11,36 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.cz.library.R;
-import com.cz.library.util.Utils;
-import com.cz.library.widget.DivideTextView;
 
 /**
  * Created by czz on 2016/9/27.
  */
-public class CardTextView extends DivideTextView {
+public class CardRelativeLayout extends RelativeLayout{
     private final ShadowDrawable shadowDrawable;
     private int backgroundPressColor;
     private int contentPadding;
 
-    public CardTextView(Context context) {
+    public CardRelativeLayout(Context context) {
         this(context, null);
     }
 
-    public CardTextView(Context context, AttributeSet attrs) {
+    public CardRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.shadowDrawable=new ShadowDrawable();
         setLayerType(View.LAYER_TYPE_SOFTWARE, this.shadowDrawable.getPaint());
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CardTextView);
-        setContentPadding((int) a.getDimension(R.styleable.CardTextView_cv_contentPadding, Utils.dip2px(2)));
-        setCornerRadius(a.getDimension(R.styleable.CardTextView_cv_cardCornerRadius, Utils.dip2px(2)));
-        setCardBackgroundColor(a.getColor(R.styleable.CardTextView_cv_cardBackgroundColor, Color.WHITE));
-        setCardBackgroundPressColor(a.getColor(R.styleable.CardTextView_cv_cardBackgroundPressColor, Color.TRANSPARENT));
-        setCardElevation(a.getDimension(R.styleable.CardTextView_cv_cardElevation, Utils.dip2px(2)));
-        setCardType(a.getInt(R.styleable.CardTextView_cv_cardType, ShadowDrawable.RECT));
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CardRelativeLayout);
+        setContentPadding((int) a.getDimension(R.styleable.CardRelativeLayout_cr_contentPadding, 4));
+        setCornerRadius(a.getDimension(R.styleable.CardRelativeLayout_cr_cardCornerRadius, 2));
+        setCardBackgroundColor(a.getColor(R.styleable.CardRelativeLayout_cr_cardBackgroundColor, Color.WHITE));
+        setCardBackgroundPressColor(a.getColor(R.styleable.CardRelativeLayout_cr_cardBackgroundPressColor, Color.TRANSPARENT));
+        setCardElevation(a.getDimension(R.styleable.CardRelativeLayout_cr_cardElevation, 2));
+        setCardType(a.getInt(R.styleable.CardRelativeLayout_cr_cardType, ShadowDrawable.RECT));
         a.recycle();
     }
+
 
     /**
      * 5.0以下动态背景
@@ -132,4 +132,5 @@ public class CardTextView extends DivideTextView {
         setContentPadding(contentPadding);
         super.dispatchDraw(canvas);
     }
+
 }

@@ -10,16 +10,77 @@
         android:layout_height="wrap_content"
         android:text="@string/shadow_text_view"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp">
+
     <com.cz.library.widget.card.CardTextView
         android:id="@+id/cv_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:textSize="48sp"
-        android:text="AB"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:textSize="24sp"
+        android:text="ABC"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
-        auto:cv_cardElevation="4dp"
-        auto:cv_cardCornerRadius="3dp"
-        auto:cv_cardBackgroundColor="@color/colorAccent"/>
+        auto:cv_cardBackgroundColor="@color/white"
+        auto:cv_cardBackgroundPressColor="@color/red"
+        auto:cv_contentPadding="2dp"/>
+
+        <com.cz.library.widget.card.CardLinearLayout
+            android:id="@+id/cv_linear_view"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="8dp"
+            android:layout_gravity="center_horizontal"
+            auto:cl_cardBackgroundColor="@color/white"
+            auto:cl_cardBackgroundPressColor="@color/green"
+            auto:cl_contentPadding="2dp"/>
+
+        <com.cz.library.widget.card.CardRelativeLayout
+            android:id="@+id/cv_relative_view"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="8dp"
+            android:layout_gravity="center_horizontal"
+            auto:cr_cardBackgroundColor="@color/white"
+            auto:cr_cardBackgroundPressColor="@color/blue"
+            auto:cr_contentPadding="2dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/shadow_shape"/>
+
+    <com.cz.app.widget.RadioLayout
+        android:id="@+id/shadow_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        auto:rl_items="@array/time_indicate_gravity"/>
+
+    <com.cz.app.widget.SeekLayout
+        android:id="@+id/sl_radius"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        auto:sl_info="@string/radius"/>
+
+    <com.cz.app.widget.SeekLayout
+        android:id="@+id/sl_elevation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        auto:sl_info="@string/elevation"/>
+
+    <com.cz.app.widget.SeekLayout
+        android:id="@+id/sl_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        auto:sl_info="@string/drawable_padding"/>
+
+
 </LinearLayout>

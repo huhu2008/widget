@@ -362,7 +362,7 @@ public class DialView extends View{
 
     private void drawLevelText(Canvas canvas, int width, int height, float radius) {
         if(null!=levelTextItems&&levelTextItems.length==itemCount){
-            int itemPosition = getItemPosition(currentLevelValue);
+            int itemPosition = getItemPosition(currentLevelValue)-1;
             CharSequence text = levelTextItems[itemPosition];
             if(!TextUtils.isEmpty(text)){
                 textPaint.setTextSize(levelInfoTextSize);

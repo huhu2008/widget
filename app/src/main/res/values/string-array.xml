@@ -217,9 +217,9 @@
 
     <integer-array name="credit_level_value">
         <item>500</item>
-        <item>600</item>
-        <item>700</item>
-        <item>800</item>
+        <item>601</item>
+        <item>701</item>
+        <item>801</item>
         <item>1000</item>
     </integer-array>
 
