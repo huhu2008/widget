@@ -5,10 +5,10 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 
@@ -39,6 +39,7 @@ public class RadioGridLayout extends CenterGridLayout {
     public static final int BOTTOM = Gravity.BOTTOM;
 
     private Drawable buttonDrawable;
+    private Drawable itemSelectorDrawable;
     private int imageWidth;//drawable宽
     private int imageHeight;//drawable高
     private int horizontalPadding;//横向边距
@@ -63,16 +64,23 @@ public class RadioGridLayout extends CenterGridLayout {
     public RadioGridLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setWillNotDraw(false);
+        singleChoiceIndex=-1;
         multChoiceItems = new ArrayList<>();
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RadioGridLayout);
         setButtonImage(a.getDrawable(R.styleable.RadioGridLayout_rl_buttonImage));
+        setButtonItemSelector(a.getDrawable(R.styleable.RadioGridLayout_rl_buttonItemSelector));
         setButtonWidth((int) a.getDimension(R.styleable.RadioGridLayout_rl_imageWidth, 0));
         setButtonHeight((int) a.getDimension(R.styleable.RadioGridLayout_rl_imageHeight, 0));
         setButtonHorizontalPadding((int) a.getDimension(R.styleable.RadioGridLayout_rl_buttonHorizontalPadding, 0));
         setButtonVerticalPadding((int) a.getDimension(R.styleable.RadioGridLayout_rl_buttonVerticalPadding, 0));
         setImageGravity(a.getInt(R.styleable.RadioGridLayout_rl_imageGravity, Gravity.RIGHT | Gravity.BOTTOM));
-        this.choiceMode = a.getInt(R.styleable.RadioGridLayout_rl_choiceMode, SINGLE_CHOOSE);//设置选择模式
+        setChoiceModeInner(a.getInt(R.styleable.RadioGridLayout_rl_choiceMode, SINGLE_CHOOSE));//设置选择模式
         a.recycle();
+    }
+
+    public void setButtonItemSelector(Drawable itemSelector) {
+        this.itemSelectorDrawable=itemSelector;
+        refreshItemSelector();
     }
 
     /**
@@ -152,13 +160,56 @@ public class RadioGridLayout extends CenterGridLayout {
      */
     public void setChoiceMode(@ChoiceMode int mode) {
         this.choiceMode = mode;
+        switch (choiceMode) {
+            case MORE_CHOOSE:
+                singleChoiceIndex = start = end = -1;
+                break;
+            case RECTANGLE_CHOOSE:
+                singleChoiceIndex=-1;
+                multChoiceItems.clear();
+                break;
+            case SINGLE_CHOOSE:
+            default:
+                start = end = -1;
+                multChoiceItems.clear();
+                break;
+        }
+        setItemSelect(false);
         invalidate();
     }
 
+    /**
+     * 设置选择模式
+     *
+     * @param mode
+     */
+    private void setChoiceModeInner(int mode) {
+        setChoiceMode(mode);
+    }
+
     @Override
-    public void addView(View child, int i) {
-        super.addView(child, i);
+    public void addView(View child, int index) {
+        super.addView(child, index);
         setViewListener(child);
+        setBackgroundDrawableCompat(child);
+    }
+
+    private void refreshItemSelector(){
+        int childCount = getChildCount();
+        for(int i=0;i<childCount;i++){
+            setBackgroundDrawableCompat(getChildAt(i));
+        }
+    }
+
+    private void setBackgroundDrawableCompat(View childView) {
+        if(null!=itemSelectorDrawable) {
+            Drawable newDrawable = itemSelectorDrawable.getConstantState().newDrawable();
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                childView.setBackgroundDrawable(newDrawable);
+            } else {
+                childView.setBackground(newDrawable);
+            }
+        }
     }
 
     /**
@@ -166,17 +217,18 @@ public class RadioGridLayout extends CenterGridLayout {
      *
      * @param view
      */
-    private void setViewListener(View view) {
+    private void setViewListener(final View view) {
         view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 int index = indexOfChild(v);
                 switch (choiceMode) {
                     case MORE_CHOOSE:
-                        singleChoiceIndex = start = end = -1;
                         if (multChoiceItems.contains(index)) {
+                            v.setSelected(false);
                             multChoiceItems.remove(Integer.valueOf(index));
                         } else {
+                            v.setSelected(true);
                             multChoiceItems.add(Integer.valueOf(index));
                         }
                         if (null != choiceListener) {
@@ -185,11 +237,16 @@ public class RadioGridLayout extends CenterGridLayout {
                         break;
                     case RECTANGLE_CHOOSE:
                         if (-1 != start && -1 != end) {
+                            setItemSelect(false);
                             start = end = -1;//重置
                         } else if (-1 == start) {
                             start = index;
+                            v.setSelected(true);
                         } else if (-1 == end) {
                             end = index;
+                            for(int i=Math.min(start,end);i<=Math.max(start,end);i++){
+                                getChildAt(i).setSelected(true);
+                            }
                             if (null != choiceListener) {
                                 choiceListener.onRectangleChoice(start, end);
                             }
@@ -197,8 +254,8 @@ public class RadioGridLayout extends CenterGridLayout {
                         break;
                     case SINGLE_CHOOSE:
                     default:
-                        start = end = -1;
-                        multChoiceItems.clear();
+                        v.setSelected(true);
+                        if(-1!=singleChoiceIndex) getChildAt(singleChoiceIndex).setSelected(false);
                         if (null != choiceListener) {
                             choiceListener.onSingleChoice(v, index, singleChoiceIndex);
                         }
@@ -208,6 +265,13 @@ public class RadioGridLayout extends CenterGridLayout {
                 invalidate();
             }
         });
+    }
+
+    private void setItemSelect(boolean select) {
+        int childCount = getChildCount();
+        for(int i=0;i<childCount;i++){
+            getChildAt(i).setSelected(select);
+        }
     }
 
     /**
@@ -294,7 +358,6 @@ public class RadioGridLayout extends CenterGridLayout {
         childView.getHitRect(outRect);
         imageWidth = 0 == imageWidth ? buttonDrawable.getIntrinsicWidth() : imageWidth;
         imageHeight = 0 == imageHeight ? buttonDrawable.getIntrinsicHeight() : imageHeight;
-        Log.e(TAG, "gravity:" + imageGravity + " left|right:" + LEFT + " right:" + RIGHT + " " + (LEFT | RIGHT));
         switch (imageGravity) {
             case LEFT:
             case TOP:

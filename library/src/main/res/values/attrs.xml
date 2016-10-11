@@ -188,6 +188,7 @@
 
     <declare-styleable name="RadioGridLayout">
         <attr name="rl_buttonImage" format="reference" />
+        <attr name="rl_buttonItemSelector" format="reference" />
         <attr name="rl_imageWidth" format="dimension" />
         <attr name="rl_imageHeight" format="dimension" />
         <attr name="rl_buttonHorizontalPadding" format="dimension" />

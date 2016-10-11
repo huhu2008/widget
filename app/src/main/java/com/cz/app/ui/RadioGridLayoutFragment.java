@@ -13,11 +13,9 @@ import com.cz.app.R;
 import com.cz.app.widget.CheckLayout;
 import com.cz.app.widget.RadioLayout;
 import com.cz.app.widget.SeekLayout;
-import com.cz.library.util.Utils;
 import com.cz.library.widget.RadioGridLayout;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by cz on 16/3/7.
@@ -32,7 +30,7 @@ public class RadioGridLayoutFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final RadioGridLayout layout = (RadioGridLayout) view.findViewById(R.id.cl_layout);
         RadioLayout modeLayout = (RadioLayout) view.findViewById(R.id.rl_choice_mode);
@@ -83,14 +81,10 @@ public class RadioGridLayoutFragment extends Fragment {
                 layout.setImageGravity(gravity);
             }
         });
-
-        final int[] colorItems = Utils.getIntArray(R.array.color_items);
         view.findViewById(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View childView = new View(getActivity());
-                childView.setBackgroundColor(colorItems[new Random().nextInt(colorItems.length)]);
-                layout.addView(childView);
+                layout.addView(new View(getActivity()));
             }
         });
         view.findViewById(R.id.btn_remove).setOnClickListener(new View.OnClickListener() {

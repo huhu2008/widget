@@ -17,7 +17,6 @@ public class CenterGridLayout extends ViewGroup {
     public static final int AUTO_HEIGHT=-1;
     public static final int ITEM_WIDTH = 0x00;
     public static final int HORIZONTAL_PADDING = 0x01;
-    private static final String TAG = "CenterGridLayout";
     private int fixRaw;//固定列表
     private int raw;//计算列数
     private int itemWidth;//指定条目宽
@@ -42,11 +41,7 @@ public class CenterGridLayout extends ViewGroup {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CenterGridLayout);
         setFixRaw(a.getInteger(R.styleable.CenterGridLayout_cl_fixRaw, 0));
         setItemWidth((int) a.getDimension(R.styleable.CenterGridLayout_cl_itemWidth, 0));
-        if(!a.hasValue(R.styleable.CenterGridLayout_cl_itemHeight)){
-            setItemHeight(AUTO_HEIGHT);
-        } else {
-            setItemHeight(a.getLayoutDimension(R.styleable.CenterGridLayout_cl_itemHeight, "cl_itemHeight"));
-        }
+        setItemHeight(a.getLayoutDimension(R.styleable.CenterGridLayout_cl_itemHeight, R.styleable.CenterGridLayout_cl_itemHeight));
         setItemHorizontalPadding((int) a.getDimension(R.styleable.CenterGridLayout_cl_itemHorizontalPadding, 0));
         setItemVerticalPadding((int) a.getDimension(R.styleable.CenterGridLayout_cl_itemVerticalPadding, 0));
         setItemSizeMode(a.getInt(R.styleable.CenterGridLayout_cl_itemSizeMode, ITEM_WIDTH));
