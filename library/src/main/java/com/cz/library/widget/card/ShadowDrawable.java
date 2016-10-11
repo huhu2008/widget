@@ -3,6 +3,7 @@ package com.cz.library.widget.card;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.RectShape;
@@ -17,6 +18,7 @@ public class ShadowDrawable extends ShapeDrawable implements Cloneable{
     public static final int OVAL=0x01;
     private ShadowDrawable cloneDrawable;
     private float shadowRadius;
+    private float rectRadius;
     private float elevation;
     private int cardType;
 
@@ -32,6 +34,11 @@ public class ShadowDrawable extends ShapeDrawable implements Cloneable{
     public void setShadowRadius(float radius){
         setShadowLayer(shadowRadius = radius, this.elevation);
     }
+
+    public void setRectRadius(float radius){
+        this.rectRadius=radius;
+    }
+
     public void setElevation(float elevation){
         setShadowLayer(shadowRadius,this.elevation=elevation);
     }
@@ -74,8 +81,7 @@ public class ShadowDrawable extends ShapeDrawable implements Cloneable{
         }
         @Override
         public void draw(Canvas canvas, Paint paint) {
-            Rect bounds = getBounds();
-            canvas.drawRect(0, 0, bounds.width(), bounds.height(), paint);
+            canvas.drawRoundRect(new RectF(0,0,getWidth(),getHeight()),rectRadius,rectRadius, paint);
         }
     }
 

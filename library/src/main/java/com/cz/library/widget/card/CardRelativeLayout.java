@@ -34,6 +34,7 @@ public class CardRelativeLayout extends RelativeLayout{
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CardRelativeLayout);
         setContentPadding((int) a.getDimension(R.styleable.CardRelativeLayout_cr_contentPadding, 4));
         setCornerRadius(a.getDimension(R.styleable.CardRelativeLayout_cr_cardCornerRadius, 2));
+        setCardRectRadius(a.getDimension(R.styleable.CardRelativeLayout_cr_cardRectRadius, 0));
         setCardBackgroundColor(a.getColor(R.styleable.CardRelativeLayout_cr_cardBackgroundColor, Color.WHITE));
         setCardBackgroundPressColor(a.getColor(R.styleable.CardRelativeLayout_cr_cardBackgroundPressColor, Color.TRANSPARENT));
         setCardElevation(a.getDimension(R.styleable.CardRelativeLayout_cr_cardElevation, 2));
@@ -123,6 +124,11 @@ public class CardRelativeLayout extends RelativeLayout{
 
     public void setCardElevation(float elevation) {
         this.shadowDrawable.setElevation(elevation);
+        invalidate();
+    }
+
+    public void setCardRectRadius(float radius) {
+        this.shadowDrawable.setRectRadius(radius);
         invalidate();
     }
 

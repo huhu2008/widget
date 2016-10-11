@@ -77,6 +77,12 @@
         auto:sl_info="@string/elevation"/>
 
     <com.cz.app.widget.SeekLayout
+        android:id="@+id/sl_rect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        auto:sl_info="@string/rect_radius"/>
+
+    <com.cz.app.widget.SeekLayout
         android:id="@+id/sl_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

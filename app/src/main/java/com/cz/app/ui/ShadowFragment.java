@@ -79,6 +79,15 @@ public class ShadowFragment extends Fragment {
                 cardRelativeView.setCardElevation(progress);
             }
         });
+        SeekLayout cornerLayout= (SeekLayout) view.findViewById(R.id.sl_rect);
+        cornerLayout.setOnSeekProgressChangeListener(new SeekLayout.OnSeekProgressChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress) {
+                cardTextView.setCardRectRadius(progress);
+                cardLinearView.setCardRectRadius(progress);
+                cardRelativeView.setCardRectRadius(progress);
+            }
+        });
         SeekLayout paddingLayout= (SeekLayout) view.findViewById(R.id.sl_padding);
         paddingLayout.setOnSeekProgressChangeListener(new SeekLayout.OnSeekProgressChangeListener() {
             @Override

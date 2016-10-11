@@ -91,4 +91,5 @@
     <string name="shadow_shape">ShadowShape</string>
     <string name="radius">Radius</string>
     <string name="elevation">EleVation</string>
+    <string name="rect_radius">RectRadius</string>
 </resources>

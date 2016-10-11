@@ -508,6 +508,7 @@
         <attr name="cv_cardBackgroundColor" format="color"/>
         <attr name="cv_cardBackgroundPressColor" format="color"/>
         <attr name="cv_cardCornerRadius" format="dimension"/>
+        <attr name="cv_cardRectRadius" format="dimension"/>
         <attr name="cv_cardElevation" format="dimension"/>
         <attr name="cv_cardType" format="enum">
             <enum name="rect" value="0x00"/>
@@ -520,6 +521,7 @@
         <attr name="cl_cardBackgroundColor" format="color"/>
         <attr name="cl_cardBackgroundPressColor" format="color"/>
         <attr name="cl_cardCornerRadius" format="dimension"/>
+        <attr name="cl_cardRectRadius" format="dimension"/>
         <attr name="cl_cardElevation" format="dimension"/>
         <attr name="cl_cardType" format="enum">
             <enum name="rect" value="0x00"/>
@@ -533,6 +535,7 @@
         <attr name="cr_cardBackgroundPressColor" format="color"/>
         <attr name="cr_cardCornerRadius" format="dimension"/>
         <attr name="cr_cardElevation" format="dimension"/>
+        <attr name="cr_cardRectRadius" format="dimension"/>
         <attr name="cr_cardType" format="enum">
             <enum name="rect" value="0x00"/>
             <enum name="oval" value="0x01"/>

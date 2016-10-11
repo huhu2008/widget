@@ -35,6 +35,7 @@ public class CardTextView extends DivideTextView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CardTextView);
         setContentPadding((int) a.getDimension(R.styleable.CardTextView_cv_contentPadding, Utils.dip2px(2)));
         setCornerRadius(a.getDimension(R.styleable.CardTextView_cv_cardCornerRadius, Utils.dip2px(2)));
+        setCardRectRadius(a.getDimension(R.styleable.CardTextView_cv_cardRectRadius,0));
         setCardBackgroundColor(a.getColor(R.styleable.CardTextView_cv_cardBackgroundColor, Color.WHITE));
         setCardBackgroundPressColor(a.getColor(R.styleable.CardTextView_cv_cardBackgroundPressColor, Color.TRANSPARENT));
         setCardElevation(a.getDimension(R.styleable.CardTextView_cv_cardElevation, Utils.dip2px(2)));
@@ -109,6 +110,11 @@ public class CardTextView extends DivideTextView {
 
     public void setCornerRadius(float radius) {
         this.shadowDrawable.setShadowRadius(radius);
+        invalidate();
+    }
+
+    public void setCardRectRadius(float radius) {
+        this.shadowDrawable.setRectRadius(radius);
         invalidate();
     }
 
