@@ -32,6 +32,8 @@ public class ShadowFragment extends Fragment {
         final CardTextView cardTextView= (CardTextView) view.findViewById(R.id.cv_text_view);
         final CardLinearLayout cardLinearView= (CardLinearLayout) view.findViewById(R.id.cv_linear_view);
         final CardRelativeLayout cardRelativeView= (CardRelativeLayout) view.findViewById(R.id.cv_relative_view);
+        CardLinearLayout cardLinearLayout1= (CardLinearLayout) view.findViewById(R.id.cv_linear_layout);
+        CardRelativeLayout cardRelativeLayout= (CardRelativeLayout) view.findViewById(R.id.cv_relative_layout);
         cardTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +49,18 @@ public class ShadowFragment extends Fragment {
         cardRelativeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getContext(), "Click!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        cardLinearLayout1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "Click!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        cardRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Toast.makeText(getContext(), "Click!", Toast.LENGTH_SHORT).show();
             }
         });

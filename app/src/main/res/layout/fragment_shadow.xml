@@ -1,92 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/shadow_text_view"/>
-
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp">
+        android:layout_height="match_parent">
 
-    <com.cz.library.widget.card.CardTextView
-        android:id="@+id/cv_text_view"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:textSize="24sp"
-        android:text="ABC"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        auto:cv_cardBackgroundColor="@color/white"
-        auto:cv_cardBackgroundPressColor="@color/red"
-        auto:cv_contentPadding="2dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/shadow_text_view"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp">
+
+            <com.cz.library.widget.card.CardTextView
+                android:id="@+id/cv_text_view"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:textSize="24sp"
+                android:text="ABC"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                auto:cv_cardBackgroundColor="@color/white"
+                auto:cv_cardBackgroundPressColor="@color/red"
+                auto:cv_contentPadding="8dp"/>
+
+            <com.cz.library.widget.card.CardLinearLayout
+                android:id="@+id/cv_linear_view"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="8dp"
+                android:layout_gravity="center_horizontal"
+                auto:cl_cardBackgroundColor="@color/white"
+                auto:cl_cardBackgroundPressColor="@color/green"
+                auto:cl_contentPadding="2dp"/>
+
+            <com.cz.library.widget.card.CardRelativeLayout
+                android:id="@+id/cv_relative_view"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="8dp"
+                android:layout_gravity="center_horizontal"
+                auto:cr_cardBackgroundColor="@color/white"
+                auto:cr_cardBackgroundPressColor="@color/blue"
+                auto:cr_contentPadding="2dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/shadow_linear_view"/>
 
         <com.cz.library.widget.card.CardLinearLayout
-            android:id="@+id/cv_linear_view"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="8dp"
+            android:id="@+id/cv_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:layout_gravity="center_horizontal"
             auto:cl_cardBackgroundColor="@color/white"
             auto:cl_cardBackgroundPressColor="@color/green"
-            auto:cl_contentPadding="2dp"/>
+            android:orientation="horizontal"
+            android:gravity="center"
+            auto:cl_contentPadding="2dp">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_launcher"
+                android:background="@color/green"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="40dp"
+                android:text="Hello World!"/>
+
+        </com.cz.library.widget.card.CardLinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ShadowRelativeLayout"/>
 
         <com.cz.library.widget.card.CardRelativeLayout
-            android:id="@+id/cv_relative_view"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="8dp"
+            android:id="@+id/cv_relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:layout_gravity="center_horizontal"
             auto:cr_cardBackgroundColor="@color/white"
-            auto:cr_cardBackgroundPressColor="@color/blue"
-            auto:cr_contentPadding="2dp"/>
+            auto:cr_cardBackgroundPressColor="@color/green"
+            auto:cr_contentPadding="2dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="40dp"
+                android:gravity="right"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:layout_marginRight="40dp"
+                android:background="@color/red"
+                android:text="Hello World!"/>
+
+        </com.cz.library.widget.card.CardRelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/shadow_shape"/>
+
+        <com.cz.app.widget.RadioLayout
+            android:id="@+id/shadow_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            auto:rl_items="@array/time_indicate_gravity"/>
+
+        <com.cz.app.widget.SeekLayout
+            android:id="@+id/sl_radius"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            auto:sl_info="@string/radius"/>
+
+        <com.cz.app.widget.SeekLayout
+            android:id="@+id/sl_elevation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            auto:sl_info="@string/elevation"/>
+
+        <com.cz.app.widget.SeekLayout
+            android:id="@+id/sl_rect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            auto:sl_info="@string/rect_radius"/>
+
+        <com.cz.app.widget.SeekLayout
+            android:id="@+id/sl_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            auto:sl_info="@string/drawable_padding"/>
+
 
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/shadow_shape"/>
-
-    <com.cz.app.widget.RadioLayout
-        android:id="@+id/shadow_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        auto:rl_items="@array/time_indicate_gravity"/>
-
-    <com.cz.app.widget.SeekLayout
-        android:id="@+id/sl_radius"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        auto:sl_info="@string/radius"/>
-
-    <com.cz.app.widget.SeekLayout
-        android:id="@+id/sl_elevation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        auto:sl_info="@string/elevation"/>
-
-    <com.cz.app.widget.SeekLayout
-        android:id="@+id/sl_rect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        auto:sl_info="@string/rect_radius"/>
-
-    <com.cz.app.widget.SeekLayout
-        android:id="@+id/sl_padding"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        auto:sl_info="@string/drawable_padding"/>
-
-
-</LinearLayout>
+</ScrollView>
