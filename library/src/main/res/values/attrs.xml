@@ -193,6 +193,7 @@
         <attr name="rl_imageHeight" format="dimension" />
         <attr name="rl_buttonHorizontalPadding" format="dimension" />
         <attr name="rl_buttonVerticalPadding" format="dimension" />
+        <attr name="rl_itemLayout" format="reference" />
         <attr name="rl_imageGravity">
             <flag name="left" value="0x03" />
             <flag name="top" value="0x30" />
@@ -505,7 +506,8 @@
     </declare-styleable>
 
     <declare-styleable name="CardTextView">
-        <attr name="cv_contentPadding" format="dimension"/>
+        <attr name="cv_horizontalPadding" format="dimension"/>
+        <attr name="cv_verticalPadding" format="dimension"/>
         <attr name="cv_cardBackgroundColor" format="color"/>
         <attr name="cv_cardBackgroundPressColor" format="color"/>
         <attr name="cv_cardCornerRadius" format="dimension"/>
@@ -515,10 +517,15 @@
             <enum name="rect" value="0x00"/>
             <enum name="oval" value="0x01"/>
         </attr>
+        <attr name="cv_cardRippleMode" format="enum">
+            <enum name="shape" value="0x00"/>
+            <enum name="full" value="0x01"/>
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="CardLinearLayout">
-        <attr name="cl_contentPadding" format="dimension"/>
+        <attr name="cl_horizontalPadding" format="dimension"/>
+        <attr name="cl_verticalPadding" format="dimension"/>
         <attr name="cl_cardBackgroundColor" format="color"/>
         <attr name="cl_cardBackgroundPressColor" format="color"/>
         <attr name="cl_cardCornerRadius" format="dimension"/>
@@ -528,10 +535,15 @@
             <enum name="rect" value="0x00"/>
             <enum name="oval" value="0x01"/>
         </attr>
+        <attr name="cl_cardRippleMode" format="enum">
+            <enum name="shape" value="0x00"/>
+            <enum name="full" value="0x01"/>
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="CardRelativeLayout">
-        <attr name="cr_contentPadding" format="dimension"/>
+        <attr name="cr_horizontalPadding" format="dimension"/>
+        <attr name="cr_verticalPadding" format="dimension"/>
         <attr name="cr_cardBackgroundColor" format="color"/>
         <attr name="cr_cardBackgroundPressColor" format="color"/>
         <attr name="cr_cardCornerRadius" format="dimension"/>
@@ -540,6 +552,10 @@
         <attr name="cr_cardType" format="enum">
             <enum name="rect" value="0x00"/>
             <enum name="oval" value="0x01"/>
+        </attr>
+        <attr name="cr_cardRippleMode" format="enum">
+            <enum name="shape" value="0x00"/>
+            <enum name="full" value="0x01"/>
         </attr>
     </declare-styleable>
 

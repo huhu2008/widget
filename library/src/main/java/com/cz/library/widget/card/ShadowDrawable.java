@@ -32,7 +32,7 @@ public class ShadowDrawable extends ShapeDrawable implements Cloneable{
     }
 
     public void setShadowRadius(float radius){
-        setShadowLayer(shadowRadius = radius, this.elevation);
+        setShadowLayer(shadowRadius = radius, this.elevation,SHADOW_COLOR);
     }
 
     public void setRectRadius(float radius){
@@ -40,7 +40,7 @@ public class ShadowDrawable extends ShapeDrawable implements Cloneable{
     }
 
     public void setElevation(float elevation){
-        setShadowLayer(shadowRadius,this.elevation=elevation);
+        setShadowLayer(shadowRadius,this.elevation=elevation,SHADOW_COLOR);
     }
 
 
@@ -51,11 +51,15 @@ public class ShadowDrawable extends ShapeDrawable implements Cloneable{
         } else if(OVAL==cardType){
             setShape(new OvalShadow());
         }
-        setShadowLayer(shadowRadius,elevation);
+        setShadowLayer(shadowRadius,elevation,SHADOW_COLOR);
     }
 
-    private void setShadowLayer(float shadowRadius,float elevation) {
-        getPaint().setShadowLayer(shadowRadius, 0, elevation, SHADOW_COLOR);
+    public void setShadowColor(int color){
+        getPaint().setShadowLayer(shadowRadius, 0, elevation, color);
+    }
+
+    private void setShadowLayer(float shadowRadius,float elevation,int color) {
+        getPaint().setShadowLayer(shadowRadius, 0, elevation, color);
         if(null!=cloneDrawable){
             cloneDrawable.getPaint().setShadowLayer(shadowRadius, 0, elevation, SHADOW_COLOR);
         }

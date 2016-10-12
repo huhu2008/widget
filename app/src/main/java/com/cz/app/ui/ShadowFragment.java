@@ -74,6 +74,16 @@ public class ShadowFragment extends Fragment {
             }
         });
 
+        RadioLayout radioLayout1= (RadioLayout) view.findViewById(R.id.shadow_layout1);
+        radioLayout1.setOnCheckedListener(new RadioLayout.OnCheckedListener() {
+            @Override
+            public void onChecked(View v, int position, boolean isChecked) {
+                cardTextView.setCardRippleMode(position);
+                cardLinearView.setCardRippleMode(position);
+                cardRelativeView.setCardRippleMode(position);
+            }
+        });
+
         SeekLayout radiusLayout= (SeekLayout) view.findViewById(R.id.sl_radius);
         radiusLayout.setOnSeekProgressChangeListener(new SeekLayout.OnSeekProgressChangeListener() {
             @Override

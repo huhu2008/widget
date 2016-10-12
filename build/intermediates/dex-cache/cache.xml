@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/cz/Desktop/master/widget/app/build/intermediates/exploded-aar/com.cz.widget/library/1.3.2/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e6e30b642983011fb648b655631d4ba60c98f1d4">
+        <dex dex="/Users/cz/Desktop/master/widget/app/build/intermediates/pre-dexed/debug/com.cz.widget-library-1.3.2_45572b46d2d5ea1ac976c346e1c609a871092fb9.jar" />
+    </item>
+
+</items>

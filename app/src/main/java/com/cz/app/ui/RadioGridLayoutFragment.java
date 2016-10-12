@@ -43,7 +43,7 @@ public class RadioGridLayoutFragment extends Fragment {
         modeLayout.setOnCheckedListener(new RadioLayout.OnCheckedListener() {
             @Override
             public void onChecked(View v, int position, boolean isChecked) {
-                layout.setChoiceMode(position);
+                layout.setCheckedMode(position);
             }
         });
         widthSeek.setOnSeekProgressChangeListener(new SeekLayout.OnSeekProgressChangeListener() {
@@ -81,6 +81,8 @@ public class RadioGridLayoutFragment extends Fragment {
                 layout.setImageGravity(gravity);
             }
         });
+        String[] items={"A","B","C","D","E","F","G","H"};
+        layout.addTextItems(items);
         view.findViewById(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

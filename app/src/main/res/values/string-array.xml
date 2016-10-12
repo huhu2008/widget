@@ -231,4 +231,14 @@
         <item>信用优秀</item>
     </string-array>
 
+    <string-array name="shadow_shape">
+        <item>Rect</item>
+        <item>Oval</item>
+    </string-array>
+
+    <string-array name="ripple_mode">
+        <item>Shape</item>
+        <item>Full</item>
+    </string-array>
+
 </resources>

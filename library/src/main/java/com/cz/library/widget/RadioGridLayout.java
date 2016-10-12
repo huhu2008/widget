@@ -7,10 +7,14 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.IntDef;
+import android.support.annotation.LayoutRes;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.cz.library.R;
 
@@ -24,13 +28,13 @@ import java.util.List;
  */
 public class RadioGridLayout extends CenterGridLayout {
     // 三种选择状态
-    public static final int SINGLE_CHOOSE = 0;//单选
-    public static final int MORE_CHOOSE = 1;//多选
-    public static final int RECTANGLE_CHOOSE = 2;//块选择
-    private static final String TAG = "RadioGridLayout";
+    public static final int SINGLE_CHECKED = 0;//单选
+    public static final int MORE_CHECKED = 1;//多选
+    public static final int RECTANGLE_CHECKED = 2;//块选择
+    private static final String TAG = "RadioGridLayout";;
 
-    @IntDef(value = {SINGLE_CHOOSE, MORE_CHOOSE, RECTANGLE_CHOOSE})
-    public @interface ChoiceMode {
+    @IntDef(value = {SINGLE_CHECKED, MORE_CHECKED, RECTANGLE_CHECKED})
+    public @interface CheckedMode {
     }
 
     public static final int LEFT = Gravity.LEFT;
@@ -45,11 +49,14 @@ public class RadioGridLayout extends CenterGridLayout {
     private int horizontalPadding;//横向边距
     private int verticalPadding;//纵向边距
     private int imageGravity;//image展示方向
-    private int choiceMode;// 选择状态
-    private OnCheckListener choiceListener;
+    private int checkedMode;// 选择状态
+    private int itemLayoutResourceId;
+    private OnRectangleCheckListener rectangleCheckListener;
+    private OnMultiCheckListener multiCheckListener;
+    private OnSingleCheckListener singleCheckListener;
 
-    private int singleChoiceIndex;// 选中位置
-    private ArrayList<Integer> multChoiceItems;//选中集
+    private int singleCheckedIndex =-1;// 选中位置
+    private ArrayList<Integer> multiCheckedItems;//选中集
     private int start, end;
 
 
@@ -64,18 +71,45 @@ public class RadioGridLayout extends CenterGridLayout {
     public RadioGridLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setWillNotDraw(false);
-        singleChoiceIndex=-1;
-        multChoiceItems = new ArrayList<>();
+        multiCheckedItems = new ArrayList<>();
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RadioGridLayout);
         setButtonImage(a.getDrawable(R.styleable.RadioGridLayout_rl_buttonImage));
         setButtonItemSelector(a.getDrawable(R.styleable.RadioGridLayout_rl_buttonItemSelector));
         setButtonWidth((int) a.getDimension(R.styleable.RadioGridLayout_rl_imageWidth, 0));
         setButtonHeight((int) a.getDimension(R.styleable.RadioGridLayout_rl_imageHeight, 0));
+        setItemLayout(a.getResourceId(R.styleable.RadioGridLayout_rl_itemLayout,NO_ID));
         setButtonHorizontalPadding((int) a.getDimension(R.styleable.RadioGridLayout_rl_buttonHorizontalPadding, 0));
         setButtonVerticalPadding((int) a.getDimension(R.styleable.RadioGridLayout_rl_buttonVerticalPadding, 0));
         setImageGravity(a.getInt(R.styleable.RadioGridLayout_rl_imageGravity, Gravity.RIGHT | Gravity.BOTTOM));
-        setChoiceModeInner(a.getInt(R.styleable.RadioGridLayout_rl_choiceMode, SINGLE_CHOOSE));//设置选择模式
+        setCheckedModeInner(a.getInt(R.styleable.RadioGridLayout_rl_choiceMode, SINGLE_CHECKED));//设置选择模式
         a.recycle();
+    }
+
+    public void setItemLayout(@LayoutRes int resourceId) {
+        this.itemLayoutResourceId=resourceId;
+    }
+
+    public void addTextItems(String[] items){
+        addTextItems(items,NO_ID);
+    }
+
+    public void addTextItems(String[] items,@IdRes int textIdRes){
+        if(null!=items&&NO_ID!=itemLayoutResourceId){
+            LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+            for(String item:items){
+                View inflateView = layoutInflater.inflate(itemLayoutResourceId, this, false);
+                TextView textView=null;
+                if(NO_ID!=textIdRes){
+                    textView= (TextView) inflateView.findViewById(textIdRes);
+                } else if(inflateView instanceof TextView){
+                    textView= (TextView) inflateView;
+                }
+                if(null!=textView){
+                    textView.setText(item);
+                }
+                addView(inflateView);
+            }
+        }
     }
 
     public void setButtonItemSelector(Drawable itemSelector) {
@@ -158,20 +192,20 @@ public class RadioGridLayout extends CenterGridLayout {
      *
      * @param mode
      */
-    public void setChoiceMode(@ChoiceMode int mode) {
-        this.choiceMode = mode;
-        switch (choiceMode) {
-            case MORE_CHOOSE:
-                singleChoiceIndex = start = end = -1;
+    public void setCheckedMode(@CheckedMode int mode) {
+        this.checkedMode = mode;
+        switch (checkedMode) {
+            case MORE_CHECKED:
+                singleCheckedIndex = start = end = -1;
                 break;
-            case RECTANGLE_CHOOSE:
-                singleChoiceIndex=-1;
-                multChoiceItems.clear();
+            case RECTANGLE_CHECKED:
+                singleCheckedIndex =-1;
+                multiCheckedItems.clear();
                 break;
-            case SINGLE_CHOOSE:
+            case SINGLE_CHECKED:
             default:
                 start = end = -1;
-                multChoiceItems.clear();
+                multiCheckedItems.clear();
                 break;
         }
         setItemSelect(false);
@@ -183,8 +217,8 @@ public class RadioGridLayout extends CenterGridLayout {
      *
      * @param mode
      */
-    private void setChoiceModeInner(int mode) {
-        setChoiceMode(mode);
+    private void setCheckedModeInner(int mode) {
+        setCheckedMode(mode);
     }
 
     @Override
@@ -222,20 +256,20 @@ public class RadioGridLayout extends CenterGridLayout {
             @Override
             public void onClick(View v) {
                 int index = indexOfChild(v);
-                switch (choiceMode) {
-                    case MORE_CHOOSE:
-                        if (multChoiceItems.contains(index)) {
+                switch (checkedMode) {
+                    case MORE_CHECKED:
+                        if (multiCheckedItems.contains(index)) {
                             v.setSelected(false);
-                            multChoiceItems.remove(Integer.valueOf(index));
+                            multiCheckedItems.remove(Integer.valueOf(index));
                         } else {
                             v.setSelected(true);
-                            multChoiceItems.add(Integer.valueOf(index));
+                            multiCheckedItems.add(Integer.valueOf(index));
                         }
-                        if (null != choiceListener) {
-                            choiceListener.onMultiChoice(v, multChoiceItems);
+                        if (null != multiCheckListener) {
+                            multiCheckListener.onMultiChecked(v, multiCheckedItems);
                         }
                         break;
-                    case RECTANGLE_CHOOSE:
+                    case RECTANGLE_CHECKED:
                         if (-1 != start && -1 != end) {
                             setItemSelect(false);
                             start = end = -1;//重置
@@ -247,24 +281,31 @@ public class RadioGridLayout extends CenterGridLayout {
                             for(int i=Math.min(start,end);i<=Math.max(start,end);i++){
                                 getChildAt(i).setSelected(true);
                             }
-                            if (null != choiceListener) {
-                                choiceListener.onRectangleChoice(start, end);
+                            if (null != rectangleCheckListener) {
+                                rectangleCheckListener.onRectangleChecked(start, end);
                             }
                         }
                         break;
-                    case SINGLE_CHOOSE:
+                    case SINGLE_CHECKED:
                     default:
-                        v.setSelected(true);
-                        if(-1!=singleChoiceIndex) getChildAt(singleChoiceIndex).setSelected(false);
-                        if (null != choiceListener) {
-                            choiceListener.onSingleChoice(v, index, singleChoiceIndex);
-                        }
-                        singleChoiceIndex = index;
+                        setItemChecked(index);
                         break;
                 }
                 invalidate();
             }
         });
+    }
+
+    public void setItemChecked(int index) {
+        if(singleCheckedIndex !=index){
+            View checkedView = getChildAt(index);
+            checkedView.setSelected(true);
+            if(-1!= singleCheckedIndex) getChildAt(singleCheckedIndex).setSelected(false);
+            if (null != singleCheckListener) {
+                singleCheckListener.onChecked(checkedView, index, singleCheckedIndex);
+            }
+            singleCheckedIndex = index;
+        }
     }
 
     private void setItemSelect(boolean select) {
@@ -279,8 +320,8 @@ public class RadioGridLayout extends CenterGridLayout {
      *
      * @return
      */
-    public int getSingleChoiceIndex() {
-        return singleChoiceIndex;
+    public int getSingleCheckedIndex() {
+        return singleCheckedIndex;
     }
 
     /**
@@ -289,7 +330,7 @@ public class RadioGridLayout extends CenterGridLayout {
      * @return
      */
     public List<Integer> getMultiChoiceIndexs() {
-        return this.multChoiceItems;
+        return this.multiCheckedItems;
     }
 
     /**
@@ -310,27 +351,17 @@ public class RadioGridLayout extends CenterGridLayout {
         return end;
     }
 
-    /**
-     * 设置选择监听
-     *
-     * @param listener
-     */
-    public void setOnCheckedListener(OnCheckListener listener) {
-        this.choiceListener = listener;
-    }
-
-
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
         if (0 >= getChildCount() || null == buttonDrawable) return;
-        switch (choiceMode) {
-            case MORE_CHOOSE:
-                for (Integer index : multChoiceItems) {
+        switch (checkedMode) {
+            case MORE_CHECKED:
+                for (Integer index : multiCheckedItems) {
                     drawChoiceView(canvas, getChildAt(index));
                 }
                 break;
-            case RECTANGLE_CHOOSE:
+            case RECTANGLE_CHECKED:
                 if (-1 != start && -1 != end) {
                     for (int i = Math.min(start, end); i <= Math.max(start, end); i++) {
                         drawChoiceView(canvas, getChildAt(i));
@@ -339,10 +370,10 @@ public class RadioGridLayout extends CenterGridLayout {
                     drawChoiceView(canvas, getChildAt(start));
                 }
                 break;
-            case SINGLE_CHOOSE:
+            case SINGLE_CHECKED:
             default:
-                if (0 <= singleChoiceIndex) {
-                    drawChoiceView(canvas, getChildAt(singleChoiceIndex));
+                if (0 <= singleCheckedIndex) {
+                    drawChoiceView(canvas, getChildAt(singleCheckedIndex));
                 }
                 break;
         }
@@ -417,16 +448,37 @@ public class RadioGridLayout extends CenterGridLayout {
         buttonDrawable.draw(canvas);
     }
 
+    /**
+     * 设置选择监听
+     *
+     * @param listener
+     */
+    public void setOnSingleCheckListener(OnSingleCheckListener listener) {
+        this.singleCheckListener = listener;
+    }
+
+    public void setOnMultiCheckListener(OnMultiCheckListener listener){
+        this.multiCheckListener=listener;
+    }
+
+    public void setOnRectangleCheckListener(OnRectangleCheckListener listener){
+        this.rectangleCheckListener=listener;
+    }
 
     /**
      * 选择监听器
      */
-    public interface OnCheckListener {
-        void onSingleChoice(View v, int newPosition, int oldPosition);
-
-        void onMultiChoice(View v, ArrayList<Integer> mChoicePositions);
-
-        void onRectangleChoice(int startPosition, int endPosition);
+    public interface OnSingleCheckListener {
+        void onChecked(View v, int newPosition, int oldPosition);
     }
+
+    public interface OnMultiCheckListener{
+        void onMultiChecked(View v, ArrayList<Integer> mChoicePositions);
+    }
+
+    public interface OnRectangleCheckListener{
+        void onRectangleChecked(int startPosition, int endPosition);
+    }
+
 
 }

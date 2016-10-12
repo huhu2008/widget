@@ -11,8 +11,6 @@ import com.cz.app.R;
 import com.cz.app.widget.ColorLayout;
 import com.cz.library.widget.RadioGridLayout;
 
-import java.util.ArrayList;
-
 /**
  * Created by cz on 16/3/8.
  */
@@ -23,22 +21,14 @@ public class ColorPicketDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final ColorLayout layout = new ColorLayout(getActivity());
-        layout.setOnCheckedListener(new RadioGridLayout.OnCheckListener() {
+        layout.setOnCheckedListener(new RadioGridLayout.OnSingleCheckListener() {
             @Override
-            public void onSingleChoice(View v, int newPosition, int oldPosition) {
+            public void onChecked(View v, int newPosition, int oldPosition) {
                 int color = layout.getColor(newPosition);
                 if (null != listener) {
                     listener.onSelected(v, color);
                 }
                 dismiss();
-            }
-
-            @Override
-            public void onMultiChoice(View v, ArrayList<Integer> mChoicePositions) {
-            }
-
-            @Override
-            public void onRectangleChoice(int startPosition, int endPosition) {
             }
         });
         return new AlertDialog.Builder(getActivity()).setTitle(R.string.choice_color).setView(layout).create();

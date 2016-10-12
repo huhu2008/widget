@@ -34,7 +34,7 @@
                 android:layout_gravity="center_horizontal"
                 auto:cv_cardBackgroundColor="@color/white"
                 auto:cv_cardBackgroundPressColor="@color/red"
-                auto:cv_contentPadding="8dp"/>
+                auto:cv_verticalPadding="8dp"/>
 
             <com.cz.library.widget.card.CardLinearLayout
                 android:id="@+id/cv_linear_view"
@@ -44,7 +44,7 @@
                 android:layout_gravity="center_horizontal"
                 auto:cl_cardBackgroundColor="@color/white"
                 auto:cl_cardBackgroundPressColor="@color/green"
-                auto:cl_contentPadding="2dp"/>
+                auto:cl_verticalPadding="2dp"/>
 
             <com.cz.library.widget.card.CardRelativeLayout
                 android:id="@+id/cv_relative_view"
@@ -54,7 +54,7 @@
                 android:layout_gravity="center_horizontal"
                 auto:cr_cardBackgroundColor="@color/white"
                 auto:cr_cardBackgroundPressColor="@color/blue"
-                auto:cr_contentPadding="2dp"/>
+                auto:cr_verticalPadding="2dp"/>
 
         </LinearLayout>
 
@@ -76,7 +76,7 @@
             auto:cl_cardBackgroundPressColor="@color/green"
             android:orientation="horizontal"
             android:gravity="center"
-            auto:cl_contentPadding="2dp">
+            auto:cl_verticalPadding="2dp">
 
 
             <ImageView
@@ -107,7 +107,7 @@
             android:layout_gravity="center_horizontal"
             auto:cr_cardBackgroundColor="@color/white"
             auto:cr_cardBackgroundPressColor="@color/green"
-            auto:cr_contentPadding="2dp">
+            auto:cr_verticalPadding="2dp">
 
 
             <TextView
@@ -133,7 +133,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            auto:rl_items="@array/time_indicate_gravity"/>
+            auto:rl_items="@array/shadow_shape"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ripple Mode(Only L)"/>
+
+        <com.cz.app.widget.RadioLayout
+            android:id="@+id/shadow_layout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            auto:rl_items="@array/ripple_mode"/>
 
         <com.cz.app.widget.SeekLayout
             android:id="@+id/sl_radius"

@@ -10,6 +10,7 @@ import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.cz.library.R;
@@ -20,9 +21,14 @@ import com.cz.library.widget.DivideTextView;
  * Created by czz on 2016/9/27.
  */
 public class CardTextView extends DivideTextView {
+    public static final int RIPPLE_SHAPE=0x00;
+    public static final int RIPPLE_FULL=0x01;
     private final ShadowDrawable shadowDrawable;
     private int backgroundPressColor;
-    private int contentPadding;
+    private int horizontalPadding;
+    private int verticalPadding;
+    private int rippleMode;
+    private Drawable foreground;
 
     public CardTextView(Context context) {
         this(context, null);
@@ -30,19 +36,34 @@ public class CardTextView extends DivideTextView {
 
     public CardTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setWillNotDraw(false);
         this.shadowDrawable=new ShadowDrawable();
         setLayerType(View.LAYER_TYPE_SOFTWARE, this.shadowDrawable.getPaint());
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CardTextView);
-        setContentPadding((int) a.getDimension(R.styleable.CardTextView_cv_contentPadding, Utils.dip2px(2)));
-        setCornerRadius(a.getDimension(R.styleable.CardTextView_cv_cardCornerRadius, Utils.dip2px(2)));
-        setCardRectRadius(a.getDimension(R.styleable.CardTextView_cv_cardRectRadius,0));
+        setHorizontalPadding((int) a.getDimension(R.styleable.CardTextView_cv_horizontalPadding, Utils.dip2px(1)));
+        setVerticalPadding((int) a.getDimension(R.styleable.CardTextView_cv_verticalPadding, Utils.dip2px(2)));
+        setCornerRadius(a.getDimension(R.styleable.CardTextView_cv_cardCornerRadius, Utils.dip2px(1)));
+        setCardRectRadius(a.getDimension(R.styleable.CardTextView_cv_cardRectRadius, 0));
         setCardBackgroundColor(a.getColor(R.styleable.CardTextView_cv_cardBackgroundColor, Color.WHITE));
         setCardBackgroundPressColor(a.getColor(R.styleable.CardTextView_cv_cardBackgroundPressColor, Color.TRANSPARENT));
-        setCardElevation(a.getDimension(R.styleable.CardTextView_cv_cardElevation, Utils.dip2px(2)));
+        setCardElevation(a.getDimension(R.styleable.CardTextView_cv_cardElevation, Utils.dip2px(1)));
         setCardType(a.getInt(R.styleable.CardTextView_cv_cardType, ShadowDrawable.RECT));
+        setCardRippleMode(a.getInt(R.styleable.CardTextView_cv_cardRippleMode,RIPPLE_SHAPE));
         a.recycle();
     }
 
+    public void setCardRippleMode(int mode){
+        rippleMode=mode;
+        resetShadowDrawable();
+    }
+
+    public void setHorizontalPadding(int padding) {
+        setContentPadding(padding, verticalPadding);
+    }
+
+    public void setVerticalPadding(int padding) {
+        setContentPadding(horizontalPadding, padding);
+    }
     /**
      * 5.0以下动态背景
      * @param shadowDrawable
@@ -55,7 +76,7 @@ public class CardTextView extends DivideTextView {
         pressDrawable.setBackgroundColor(backgroundPressColor);
         stateListDrawable.addState(PRESSED_ENABLED_STATE_SET, pressDrawable);
         stateListDrawable.addState(EMPTY_STATE_SET, shadowDrawable);
-        stateListDrawable.setBounds(contentPadding, contentPadding, width - contentPadding, height - contentPadding);
+        stateListDrawable.setBounds(horizontalPadding, verticalPadding, width - horizontalPadding, height - verticalPadding);
         if(Build.VERSION.SDK_INT<Build.VERSION_CODES.JELLY_BEAN){
             setBackgroundDrawable(stateListDrawable);
         } else {
@@ -69,7 +90,23 @@ public class CardTextView extends DivideTextView {
      */
     private void setBackgroundDrawableL(ShadowDrawable shadowDrawable) {
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
-            setBackground(new RippleDrawable(ColorStateList.valueOf(backgroundPressColor),shadowDrawable,null));
+            if(null!=foreground){
+                foreground.setCallback(null);
+                unscheduleDrawable(foreground);
+            }
+            if(RIPPLE_FULL==rippleMode){
+                ShadowDrawable newDrawable = shadowDrawable.clone();
+                newDrawable.setBounds(0,0,getWidth(),getHeight());
+                foreground=new RippleDrawable(ColorStateList.valueOf(backgroundPressColor), null,newDrawable);
+            } else {
+                foreground=new RippleDrawable(ColorStateList.valueOf(backgroundPressColor), null, shadowDrawable);
+            }
+            foreground.setCallback(this);
+            if (foreground.isStateful()) {
+                foreground.setState(getDrawableState());
+            }
+            setBackground(shadowDrawable);
+            setContentPadding(horizontalPadding, verticalPadding);
         }
     }
 
@@ -87,7 +124,9 @@ public class CardTextView extends DivideTextView {
         } else {
             setBackgroundDrawableL(shadowDrawable);
         }
+
     }
+
 
     public void setCardType(int cardType){
         this.shadowDrawable.setCardType(cardType);
@@ -96,25 +135,30 @@ public class CardTextView extends DivideTextView {
         }
     }
 
-    public void setContentPadding(int padding) {
-        this.contentPadding=padding;
-        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
-            Drawable drawable = getBackground();
-            if(null!=drawable){
-                drawable.setBounds(padding, padding, getWidth() - padding, getHeight() - padding);
-            }
-        } else {
-            shadowDrawable.setBounds(padding, padding, getWidth() - padding, getHeight() - padding);
+    public void setContentPadding(int padding){
+        setContentPadding(padding, padding);
+    }
+
+    public void setContentPadding(int horizontalPadding,int verticalPadding) {
+        this.horizontalPadding =horizontalPadding;
+        this.verticalPadding =verticalPadding;
+        if(null!=getBackground()) {
+            getBackground().setBounds(horizontalPadding, verticalPadding, getWidth() - horizontalPadding, getHeight() - verticalPadding);
         }
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+            if(null!=foreground){
+                if(RIPPLE_FULL==rippleMode){
+                    foreground.setBounds(0, 0, getWidth(), getHeight());
+                } else {
+                    foreground.setBounds(horizontalPadding, verticalPadding, getWidth() - horizontalPadding, getHeight() - verticalPadding);
+                }
+            }
+        }
+        invalidate();
     }
 
     public void setCornerRadius(float radius) {
         this.shadowDrawable.setShadowRadius(radius);
-        invalidate();
-    }
-
-    public void setCardRectRadius(float radius) {
-        this.shadowDrawable.setRectRadius(radius);
         invalidate();
     }
 
@@ -132,10 +176,51 @@ public class CardTextView extends DivideTextView {
         invalidate();
     }
 
+    public void setCardRectRadius(float radius) {
+        this.shadowDrawable.setRectRadius(radius);
+        invalidate();
+    }
+
     @Override
-    protected void dispatchDraw(Canvas canvas) {
-        //这里之所以重新设置一次content padding是因为在控件未绘制之前设置不生效.
-        setContentPadding(contentPadding);
-        super.dispatchDraw(canvas);
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        if (foreground != null && foreground.isStateful()) {
+            foreground.setState(getDrawableState());
+        }
+    }
+
+    @Override
+    protected boolean verifyDrawable(Drawable who) {
+        return super.verifyDrawable(who) || (who == foreground);
+    }
+
+    @Override
+    public void jumpDrawablesToCurrentState() {
+        super.jumpDrawablesToCurrentState();
+        if (foreground != null) {
+            foreground.jumpToCurrentState();
+        }
+    }
+
+
+    @Override
+    public void draw(Canvas canvas) {
+        setContentPadding(horizontalPadding, verticalPadding);
+        super.draw(canvas);
+        if (null!=foreground) {
+            foreground.draw(canvas);
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (e.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                if (null!=foreground) {
+                    foreground.setHotspot(e.getX(), e.getY());
+                }
+            }
+        }
+        return super.onTouchEvent(e);
     }
 }

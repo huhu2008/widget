@@ -21,7 +21,7 @@
             android:background="@color/app_bg"
             android:minHeight="200dp"
             auto:cl_fixRaw="4"
-            auto:cl_itemHeight="40dp"
+            auto:cl_itemHeight="auto_height"
             auto:cl_itemHorizontalPadding="8dp"
             auto:cl_itemVerticalPadding="8dp"
             auto:rl_buttonHorizontalPadding="8dp"
@@ -29,6 +29,7 @@
             auto:rl_buttonImage="@mipmap/selected_icon"
             auto:rl_buttonVerticalPadding="8dp"
             auto:rl_imageGravity="right|bottom"
+            auto:rl_itemLayout="@android:layout/simple_list_item_1"
             auto:rl_imageHeight="12dp"
             auto:rl_imageWidth="12dp" />
 

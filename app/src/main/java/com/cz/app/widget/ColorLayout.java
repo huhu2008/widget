@@ -9,14 +9,12 @@ import com.cz.app.R;
 import com.cz.library.util.Utils;
 import com.cz.library.widget.RadioGridLayout;
 
-import java.util.ArrayList;
-
 /**
  * Created by cz on 16/3/8.
  */
 public class ColorLayout extends ScrollView {
     private final int[] colorItems;
-    private RadioGridLayout.OnCheckListener listener;
+    private RadioGridLayout.OnSingleCheckListener listener;
 
     public ColorLayout(Context context) {
         this(context, null);
@@ -27,20 +25,12 @@ public class ColorLayout extends ScrollView {
         colorItems = Utils.getIntArray(R.array.color_items);
         inflate(context, R.layout.color_layout, this);
         RadioGridLayout layout = (RadioGridLayout) findViewById(R.id.rl_layout);
-        layout.setOnCheckedListener(new RadioGridLayout.OnCheckListener() {
+        layout.setOnSingleCheckListener(new RadioGridLayout.OnSingleCheckListener() {
             @Override
-            public void onSingleChoice(View v, int newPosition, int oldPosition) {
+            public void onChecked(View v, int newPosition, int oldPosition) {
                 if (null != listener) {
-                    listener.onSingleChoice(v, newPosition, oldPosition);
+                    listener.onChecked(v, newPosition, oldPosition);
                 }
-            }
-
-            @Override
-            public void onMultiChoice(View v, ArrayList<Integer> mChoicePositions) {
-            }
-
-            @Override
-            public void onRectangleChoice(int startPosition, int endPosition) {
             }
         });
         for (int i = 0; i < colorItems.length; i++) {
@@ -55,7 +45,7 @@ public class ColorLayout extends ScrollView {
         return colorItems[position];
     }
 
-    public void setOnCheckedListener(RadioGridLayout.OnCheckListener listener) {
+    public void setOnCheckedListener(RadioGridLayout.OnSingleCheckListener listener) {
         this.listener = listener;
     }
 
