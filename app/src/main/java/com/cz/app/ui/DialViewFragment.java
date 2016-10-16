@@ -51,7 +51,7 @@ public class DialViewFragment extends Fragment {
                 int currentLevelValue = dialView.getCurrentLevelValue();
                 int value = minLevelValue + random.nextInt(maxLevelValue - minLevelValue);
                 textView.append("start:"+currentLevelValue+" to:"+value+"\n");
-                dialView.setLevelValueTo(601);
+                dialView.setLevelValueTo(value);
             }
         });
     }

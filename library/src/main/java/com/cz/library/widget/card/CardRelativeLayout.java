@@ -156,7 +156,6 @@ public class CardRelativeLayout extends RelativeLayout {
                 }
             }
         }
-        invalidate();
     }
 
     public void setCornerRadius(float radius) {

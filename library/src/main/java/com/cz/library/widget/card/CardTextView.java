@@ -154,7 +154,6 @@ public class CardTextView extends DivideTextView {
                 }
             }
         }
-        invalidate();
     }
 
     public void setCornerRadius(float radius) {

@@ -156,7 +156,6 @@ public class CardLinearLayout extends LinearLayout{
                 }
             }
         }
-        invalidate();
     }
 
     public void setCornerRadius(float radius) {
