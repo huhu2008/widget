@@ -30,8 +30,7 @@
         <item>上</item>
         <item>右</item>
         <item>下</item>
-        <item>横向</item>
-        <item>纵向</item>
+        <item>分隔</item>
     </string-array>
     <string-array name="frame">
         <item>内容</item>

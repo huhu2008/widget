@@ -61,8 +61,7 @@
             <flag name="top" value="0x04" />
             <flag name="right" value="0x08" />
             <flag name="bottom" value="0x10" />
-            <flag name="horizontal_divide" value="0x20" />
-            <flag name="vertical_divide" value="0x40" />
+            <flag name="item_divide" value="0x20" />
         </attr>
     </declare-styleable>
 

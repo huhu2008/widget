@@ -23,10 +23,9 @@ public class DivideLinearLayout extends LinearLayout {
     public static final int TOP = 0x04;
     public static final int RIGHT = 0x08;
     public static final int BOTTOM = 0x10;
-    public static final int HORIZONTAL_DIVIDE = 0x20;
-    public static final int VERTICAL_DIVIDE = 0x40;
+    public static final int ITEM_DIVIDE = 0x20;
 
-    @IntDef({NONE, LEFT, TOP, RIGHT, BOTTOM, HORIZONTAL_DIVIDE, VERTICAL_DIVIDE})
+    @IntDef({NONE, LEFT, TOP, RIGHT, BOTTOM, ITEM_DIVIDE})
     public @interface DivideGravity {
     }
 
@@ -142,10 +141,10 @@ public class DivideLinearLayout extends LinearLayout {
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
         // 绘制周边分隔线
-        drawDivide(canvas, gravity == (gravity | LEFT),
-                gravity == (gravity | TOP),
-                gravity == (gravity | RIGHT),
-                gravity == (gravity | BOTTOM));
+        drawDivide(canvas, 0 != (gravity & LEFT),
+                0 != (gravity & TOP),
+                0 != (gravity & RIGHT),
+                0 != (gravity & BOTTOM));
         // 画divider
         drawItemDivide(canvas);
     }
@@ -191,14 +190,16 @@ public class DivideLinearLayout extends LinearLayout {
                 int paddingTop = getPaddingTop();
                 int paddingRight = getPaddingRight();
                 int paddingBottom = getPaddingBottom();
-                if (HORIZONTAL == orientation&&gravity == (gravity | HORIZONTAL_DIVIDE)) {
-                    int right = childView.getRight();
-                    itemDivideDrawable.setBounds(right-itemStrokeSize, itemDividePadding + paddingTop, right, height - itemDividePadding - paddingBottom);
-                    itemDivideDrawable.draw(canvas);
-                } else if (VERTICAL == orientation&&gravity == (gravity | VERTICAL_DIVIDE)) {
-                    int bottom = childView.getBottom();
-                    itemDivideDrawable.setBounds(itemDividePadding + paddingLeft, bottom-itemStrokeSize, width - itemDividePadding - paddingRight, bottom);
-                    itemDivideDrawable.draw(canvas);
+                if(0 != (gravity & ITEM_DIVIDE)){
+                    if (HORIZONTAL == orientation) {
+                        int right = childView.getRight();
+                        divideDrawable.setBounds(right-itemStrokeSize, itemDividePadding + paddingTop, right, height - itemDividePadding - paddingBottom);
+                        divideDrawable.draw(canvas);
+                    } else if (VERTICAL == orientation) {
+                        int bottom = childView.getBottom();
+                        divideDrawable.setBounds(itemDividePadding + paddingLeft, bottom-itemStrokeSize, width - itemDividePadding - paddingRight, bottom);
+                        divideDrawable.draw(canvas);
+                    }
                 }
             }
         }
