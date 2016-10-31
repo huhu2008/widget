@@ -397,7 +397,7 @@ public class EditLayout extends DivideLinearLayout {
             } else {
                 errorInfo=editError;
             }
-        } else if(!patternResult){
+        } else if(!patternMatches){
             errorInfo=editError;
         }
         //返回条件匹配与正则匹配结果
