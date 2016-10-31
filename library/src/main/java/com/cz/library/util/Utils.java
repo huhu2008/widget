@@ -2,6 +2,7 @@ package com.cz.library.util;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.AttrRes;
@@ -43,6 +44,10 @@ public class Utils {
             }
         }
         return appContext;
+    }
+
+    public static Resources getResources(){
+        return getContext().getResources();
     }
 
     public static int getColor(@ColorRes int res) {

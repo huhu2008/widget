@@ -242,6 +242,7 @@ public class EditLayout extends DivideLinearLayout {
 
     public void setEditText(String text) {
         editor.setText(text);
+        editor.setSelection(TextUtils.isEmpty(text)?0:text.length());
     }
 
     public void setEditHintTextColor(int color) {
@@ -396,6 +397,8 @@ public class EditLayout extends DivideLinearLayout {
             } else {
                 errorInfo=editError;
             }
+        } else if(!patternResult){
+            errorInfo=editError;
         }
         //返回条件匹配与正则匹配结果
         return result&(patternMatches|!patternResult);

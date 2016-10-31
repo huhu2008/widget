@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import com.cz.library.R;
 
@@ -24,7 +23,7 @@ import com.cz.library.R;
  * <p/>
  * update 2015/11/10;重写思路, 架空textView的text以及CompoundDrawable, 自己绘制方位, 控制大小
  */
-public class CenterTextView extends TextView {
+public class CenterTextView extends DivideTextView {
     //sizeMode Drawable尺寸大小控制
     private static final int NONE = 0x00;
     private static final int LEFT = 0x01;

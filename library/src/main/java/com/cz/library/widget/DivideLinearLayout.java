@@ -193,12 +193,12 @@ public class DivideLinearLayout extends LinearLayout {
                 if(0 != (gravity & ITEM_DIVIDE)){
                     if (HORIZONTAL == orientation) {
                         int right = childView.getRight();
-                        divideDrawable.setBounds(right-itemStrokeSize, itemDividePadding + paddingTop, right, height - itemDividePadding - paddingBottom);
-                        divideDrawable.draw(canvas);
+                        itemDivideDrawable.setBounds(right-itemStrokeSize, itemDividePadding + paddingTop, right, height - itemDividePadding - paddingBottom);
+                        itemDivideDrawable.draw(canvas);
                     } else if (VERTICAL == orientation) {
                         int bottom = childView.getBottom();
-                        divideDrawable.setBounds(itemDividePadding + paddingLeft, bottom-itemStrokeSize, width - itemDividePadding - paddingRight, bottom);
-                        divideDrawable.draw(canvas);
+                        itemDivideDrawable.setBounds(itemDividePadding + paddingLeft, bottom-itemStrokeSize, width - itemDividePadding - paddingRight, bottom);
+                        itemDivideDrawable.draw(canvas);
                     }
                 }
             }
