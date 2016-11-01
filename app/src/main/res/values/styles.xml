@@ -8,12 +8,27 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="textColor">@color/black</item>
         <item name="template">@style/MyTemplate</item>
+        <item name="loadView">@style/LoadViewNew</item>
     </style>
 
     <style name="MyTemplate">
         <item name="fv_progressLayout">@layout/frame_progress2</item>
         <item name="fv_displayLayout">@layout/frame_display</item>
         <item name="fv_errorLayout">@layout/frame_web_error</item>
+    </style>
+
+    <style name="LoadViewNew">
+        <item name="lv_outRingColor">@color/colorAccent</item>
+        <item name="lv_ringColor">@color/green</item>
+        <item name="lv_ringArcColor">@color/dark_red</item>
+        <item name="lv_drawableWidth">40dp</item>
+        <item name="lv_drawableHeight">40dp</item>
+        <item name="lv_ringAngle">30</item>
+        <item name="lv_ringSize">8dp</item>
+        <item name="lv_outRingSize">12dp</item>
+        <item name="lv_scale">0.2</item>
+        <item name="lv_drawableBackgroundColor">@color/yellow</item>
+        <item name="lv_drawablePadding">12dp</item>
     </style>
 
 </resources>

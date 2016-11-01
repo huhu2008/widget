@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Item("EditLayout", "com.cz.app.ui.EditLayoutFragment", ""));
         items.add(new Item("DialView", "com.cz.app.ui.DialViewFragment", ""));
         items.add(new Item("ShadowView", "com.cz.app.ui.ShadowFragment", ""));
+        items.add(new Item("LoadView", "com.cz.app.ui.LoadFragment", ""));
         recyclerView.setAdapter(new SimpleAdapter(this, items));
         recyclerView.setOnItemClickListener(new OnItemClickListener() {
             @Override

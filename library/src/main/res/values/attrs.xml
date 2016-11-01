@@ -558,10 +558,33 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="LoadView">
+        <attr name="lv_drawableWidth" format="enum|dimension">
+            <enum name="auto_width" value="-1"/>
+        </attr>
+        <attr name="lv_drawableHeight" format="enum|dimension">
+            <enum name="auto_height" value="-1"/>
+        </attr>
+        <attr name="lv_drawablePadding" format="dimension"/>
+        <attr name="lv_drawableBackgroundColor" format="color"/>
+        <attr name="lv_ringColor" format="color"/>
+        <attr name="lv_ringSize" format="dimension"/>
+        <attr name="lv_ringArcColor" format="color"/>
+        <attr name="lv_ringAngle" format="integer"/>
+        <attr name="lv_outRingColor" format="color"/>
+        <attr name="lv_outRingSize" format="dimension"/>
+        <attr name="lv_drawable" format="reference"/>
+        <attr name="lv_rotateAnimDuration" format="integer"/>
+        <attr name="lv_scaleAnimDuration" format="integer"/>
+        <attr name="lv_scale" format="float"/>
+    </declare-styleable>
+
     <declare-styleable name="WidgetAttr">
         <attr name="textColor" format="color" />
         <attr name="template" format="reference" />
+        <attr name="loadView" format="reference" />
     </declare-styleable>
+
 
 
 </resources>

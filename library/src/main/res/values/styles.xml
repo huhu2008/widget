@@ -8,4 +8,18 @@
         <item name="fv_errorLayout">@layout/frame_error</item>
     </style>
 
+    <style name="LoadView">
+        <item name="lv_outRingColor">@color/gray</item>
+        <item name="lv_ringColor">@color/gray</item>
+        <item name="lv_ringArcColor">@color/gray</item>
+        <item name="lv_drawableWidth">auto_width</item>
+        <item name="lv_drawableHeight">auto_height</item>
+        <item name="lv_ringAngle">30</item>
+        <item name="lv_ringSize">4dp</item>
+        <item name="lv_outRingSize">4dp</item>
+        <item name="lv_scale">0.2</item>
+        <item name="lv_drawableBackgroundColor">@color/white</item>
+        <item name="lv_drawablePadding">4dp</item>
+    </style>
+
 </resources>
