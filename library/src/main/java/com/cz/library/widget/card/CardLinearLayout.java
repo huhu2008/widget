@@ -47,7 +47,7 @@ public class CardLinearLayout extends LinearLayout{
         setCardBackgroundPressColor(a.getColor(R.styleable.CardLinearLayout_cl_cardBackgroundPressColor, Color.TRANSPARENT));
         setCardElevation(a.getDimension(R.styleable.CardLinearLayout_cl_cardElevation, Utils.dip2px(1)));
         setCardType(a.getInt(R.styleable.CardLinearLayout_cl_cardType, ShadowDrawable.RECT));
-        setCardRippleMode(a.getInt(R.styleable.CardTextView_cv_cardRippleMode, RIPPLE_SHAPE));
+        setCardRippleMode(a.getInt(R.styleable.CardLinearLayout_cl_cardRippleMode, RIPPLE_SHAPE));
         a.recycle();
     }
 

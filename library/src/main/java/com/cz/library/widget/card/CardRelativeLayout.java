@@ -47,7 +47,7 @@ public class CardRelativeLayout extends RelativeLayout {
         setCardBackgroundPressColor(a.getColor(R.styleable.CardRelativeLayout_cr_cardBackgroundPressColor, Color.TRANSPARENT));
         setCardElevation(a.getDimension(R.styleable.CardRelativeLayout_cr_cardElevation, Utils.dip2px(1)));
         setCardType(a.getInt(R.styleable.CardRelativeLayout_cr_cardType, ShadowDrawable.RECT));
-        setCardRippleMode(a.getInt(R.styleable.CardTextView_cv_cardRippleMode, RIPPLE_SHAPE));
+        setCardRippleMode(a.getInt(R.styleable.CardRelativeLayout_cr_cardRippleMode, RIPPLE_SHAPE));
         a.recycle();
     }
 

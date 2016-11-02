@@ -52,6 +52,7 @@
         <attr name="dl_dividePadding" format="dimension" />
         <attr name="dl_divideSize" format="dimension" />
         <attr name="dl_leftPadding" format="dimension" />
+        <attr name="dl_leftItemPadding" format="dimension" />
         <attr name="dl_itemDivideSize" format="dimension" />
         <attr name="dl_itemDivideDrawable" format="reference" />
         <attr name="dl_itemDividePadding" format="dimension" />

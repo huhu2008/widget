@@ -34,6 +34,7 @@ public class DivideLinearLayout extends LinearLayout {
     private int dividePadding;
     private int itemDividePadding;
     private int leftPadding;//左下单独边距,项目内这块需要比较多大
+    private int leftItemPadding;
     private Drawable divideDrawable;
     private Drawable itemDivideDrawable;
     private int gravity;
@@ -63,6 +64,7 @@ public class DivideLinearLayout extends LinearLayout {
         setItemDivideDrawable(a.getDrawable(R.styleable.DivideLinearLayout_dl_itemDivideDrawable));
         setDividePadding(a.getDimension(R.styleable.DivideLinearLayout_dl_dividePadding, 0f));
         setLeftPadding(a.getDimension(R.styleable.DivideLinearLayout_dl_leftPadding, 0f));
+        setLeftItemPadding((int) a.getDimension(R.styleable.DivideLinearLayout_dl_leftItemPadding,0));
         setItemDividePadding(a.getDimension(R.styleable.DivideLinearLayout_dl_itemDividePadding, 0f));
         a.recycle();
     }
@@ -137,6 +139,11 @@ public class DivideLinearLayout extends LinearLayout {
         invalidate();
     }
 
+    public void setLeftItemPadding(int padding) {
+        this.leftItemPadding=padding;
+        invalidate();
+    }
+
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
@@ -197,7 +204,7 @@ public class DivideLinearLayout extends LinearLayout {
                         itemDivideDrawable.draw(canvas);
                     } else if (VERTICAL == orientation) {
                         int bottom = childView.getBottom();
-                        itemDivideDrawable.setBounds(itemDividePadding + paddingLeft, bottom-itemStrokeSize, width - itemDividePadding - paddingRight, bottom);
+                        itemDivideDrawable.setBounds(itemDividePadding + paddingLeft+leftItemPadding, bottom-itemStrokeSize, width - itemDividePadding - paddingRight, bottom);
                         itemDivideDrawable.draw(canvas);
                     }
                 }
