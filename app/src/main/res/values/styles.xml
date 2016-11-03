@@ -9,7 +9,7 @@
         <item name="textColor">@color/black</item>
         <item name="template">@style/MyTemplate</item>
         <item name="loadView">@style/LoadViewNew</item>
-        <item name="editLayout">@layout/edit_view</item>
+        <item name="editLayout">@layout/edit_text_layout</item>
     </style>
 
     <style name="MyTemplate">
@@ -30,6 +30,10 @@
         <item name="lv_scale">0.2</item>
         <item name="lv_drawableBackgroundColor">@color/yellow</item>
         <item name="lv_drawablePadding">12dp</item>
+    </style>
+
+    <style name="HintTextAppearance" parent="android:TextAppearance">
+        <item name="android:textColorHint">@color/white</item>
     </style>
 
 </resources>

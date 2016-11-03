@@ -33,7 +33,7 @@ public class EditLayoutFragment extends Fragment {
 
         final ValidatorObserver subscribe = ValidatorObserver.create(layout1, layout2, layout3).subscribe(new ValidatorObserver.ValidatorAction() {
             @Override
-            public void onChanged(EditText editText, boolean changed) {
+            public void onChanged(EditLayout editText, boolean changed) {
                 textView.append("ValidatorObserver:"+changed+"\n");
             }
         });

@@ -93,4 +93,6 @@
     <string name="elevation">EleVation</string>
     <string name="rect_radius">RectRadius</string>
     <string name="shadow_linear_view">ShadowLinearLayout</string>
+    <string name="input_hint">input some thing,please!</string>
+    <string name="empty_info">input empty!</string>
 </resources>

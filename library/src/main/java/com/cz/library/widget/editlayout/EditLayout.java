@@ -311,16 +311,16 @@ public class EditLayout<V extends IEditText> extends DivideLinearLayout {
 
     private void setEditValidator(int flag) {
         validatorItems.clear();
-        if(flag==(VALIDATOR_NOT_EMPTY|flag)){
+        if(0!=(VALIDATOR_NOT_EMPTY&flag)){
             validatorItems.add(new NotEmptyValidator());
         }
-        if(flag==(VALIDATOR_LENGTH|flag)){
+        if(0!=(VALIDATOR_LENGTH&flag)){
             String propertyValue = validatorItemValues.get(VALIDATOR_LENGTH);
             if(!TextUtils.isEmpty(propertyValue)){
                 validatorItems.add(new LengthValidator(Integer.valueOf(propertyValue)));
             }
         }
-        if(flag==(VALIDATOR_RANGE|flag)){
+        if(0!=(VALIDATOR_RANGE&flag)){
             String propertyValue = validatorItemValues.get(VALIDATOR_RANGE);
             if(!TextUtils.isEmpty(propertyValue)){
                 Pattern pattern = Pattern.compile("(\\d+)-(\\d+)");
@@ -332,22 +332,22 @@ public class EditLayout<V extends IEditText> extends DivideLinearLayout {
                 }
             }
         }
-        if(flag==(PATTERN_EMAIL|flag)){
+        if(0!=(PATTERN_EMAIL&flag)){
             validatorItems.add(new EmailValidator());
         }
-        if(flag==(PATTERN_NUMBER|flag)){
+        if(0!=(PATTERN_NUMBER&flag)){
             validatorItems.add(new NumberValidator());
         }
-        if(flag==(PATTERN_PHONE|flag)){
+        if(0!=(PATTERN_PHONE&flag)){
             validatorItems.add(new PhoneValidator());
         }
-        if(flag==(PATTERN_WEB_URL|flag)){
+        if(0!=(PATTERN_WEB_URL&flag)){
             validatorItems.add(new WebUrlValidator());
         }
-        if(flag==(PATTERN_CHARACTER|flag)){
+        if(0!=(PATTERN_CHARACTER&flag)){
             validatorItems.add(new CharacterValidator());
         }
-        if(flag==(PATTERN_ID|flag)){
+        if(0!=(PATTERN_ID&flag)){
             validatorItems.add(new IdValidator());
         }
     }
@@ -376,34 +376,33 @@ public class EditLayout<V extends IEditText> extends DivideLinearLayout {
 
     public boolean isValid(){
         Editable text = getText();
-        boolean result=true;
+        boolean validatorResult=true;
         boolean patternResult=false;
-        boolean patternMatches=false;
+        //正则是否匹配过标志,因为可能存在无存则匹配对象,最后需要检测条件对象与正则对象结果
+        boolean patternMatched=false;
         for(int i=0;i<validatorItems.size();i++){
             Validator validator = validatorItems.get(i);
-            if(!patternMatches&&validator instanceof PatternValidator){
+            if(!patternResult&&validator instanceof PatternValidator){
                 //正则匹配对象,任一正则匹配成功返回
-                patternResult=true;
-                if(patternMatches^=validator.validator(text)){
-                    continue;
+                patternMatched=true;
+                if(patternResult|=validator.validator(text)){
+                    break;
                 }
-            } else if(!(result&=validator.validator(text))){
-                //条件匹配对象
-                break;
+            } else if(!(validatorResult&=validator.validator(text))){
+                break;//条件不匹配，直接无须继续
             }
-        }
-        //非空判断
-        if(!result){
-            if(TextUtils.isEmpty(text)&&!TextUtils.isEmpty(emptyError)){
-                errorInfo=emptyError;
-            } else {
-                errorInfo=editError;
-            }
-        } else if(!patternMatches){
-            errorInfo=editError;
         }
         //返回条件匹配与正则匹配结果
-        return result&(patternMatches|!patternResult);
+        boolean result=validatorResult&(!patternMatched||patternResult);
+        if(!result){
+            //非空判断
+            if(TextUtils.isEmpty(text)&&!TextUtils.isEmpty(emptyError)){
+                errorInfo=emptyError;
+            } else if(!TextUtils.isEmpty(editError)){
+                errorInfo=editError;
+            }
+        }
+        return result;
     }
 
     public V getEditor(){
