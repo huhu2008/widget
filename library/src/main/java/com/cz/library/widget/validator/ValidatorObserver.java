@@ -2,9 +2,9 @@ package com.cz.library.widget.validator;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.widget.EditText;
 
-import com.cz.library.widget.EditLayout;
+import com.cz.library.widget.editlayout.EditLayout;
+import com.cz.library.widget.editlayout.IEditText;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,20 +16,20 @@ import java.util.List;
  * Created by czz on 2016/9/23.
  * 匹配信息检测观察者对象
  */
-public class ValidatorObserver {
+public class ValidatorObserver<V extends IEditText> {
     private final List<EditLayout> layouts;
-    private final HashMap<EditLayout,ValidatorTextWatcher> itemTextWatchers;
+    private final HashMap<EditLayout<V>,ValidatorTextWatcher> itemTextWatchers;
     private String errorMessage;
     private ValidatorAction validatorAction;
 
-    private ValidatorObserver(EditLayout[] layouts) {
+    private ValidatorObserver(EditLayout<V>[] layouts) {
         this.layouts = new ArrayList<>();
         this.itemTextWatchers=new HashMap<>();
         if(null!=layouts){
             this.layouts.addAll(Arrays.asList(layouts));
             for(int i=0;i<layouts.length;i++){
-                EditLayout layout = layouts[i];
-                EditText editor = layout.getEditor();
+                EditLayout<V> layout = layouts[i];
+                V editor = layout.getEditor();
                 ValidatorTextWatcher textWatcher = new ValidatorTextWatcher(layout);
                 itemTextWatchers.put(layout,textWatcher);
                 editor.addTextChangedListener(textWatcher);
@@ -45,9 +45,9 @@ public class ValidatorObserver {
         return this;
     }
 
-    public void addEditLayout(EditLayout layout){
+    public void addEditLayout(EditLayout<V> layout){
         if(null!=layout){
-            EditText editor = layout.getEditor();
+            V editor = layout.getEditor();
             ValidatorTextWatcher textWatcher = new ValidatorTextWatcher(layout);
             editor.addTextChangedListener(textWatcher);
             itemTextWatchers.put(layout, textWatcher);
@@ -55,12 +55,12 @@ public class ValidatorObserver {
         }
     }
 
-    public void removeEditLayout(EditLayout layout){
+    public void removeEditLayout(EditLayout<V> layout){
         if(null!=layout){
             layouts.remove(layout);
             ValidatorTextWatcher textWatcher = itemTextWatchers.remove(layout);
             if(null!=textWatcher){
-                EditText editor = layout.getEditor();
+                V editor = layout.getEditor();
                 editor.removeTextChangedListener(textWatcher);
             }
         }
@@ -91,14 +91,14 @@ public class ValidatorObserver {
     }
 
     public interface ValidatorAction{
-        void onChanged(EditText editText,boolean changed);
+        void onChanged(EditLayout editText,boolean changed);
     }
 
     class ValidatorTextWatcher implements TextWatcher {
         private boolean isValid;
-        private final EditLayout layout;
+        private final EditLayout<V> layout;
 
-        public ValidatorTextWatcher(EditLayout layout) {
+        public ValidatorTextWatcher(EditLayout<V> layout) {
             this.layout = layout;
         }
 
@@ -111,7 +111,7 @@ public class ValidatorObserver {
             if(isValid^layout.isValid()){
                 isValid=!isValid;
                 if(null!=validatorAction){
-                    validatorAction.onChanged(layout.getEditor(),isValid);
+                    validatorAction.onChanged(layout,isValid);
                 }
             }
         }

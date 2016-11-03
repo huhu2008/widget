@@ -580,10 +580,12 @@
         <attr name="lv_scale" format="float"/>
     </declare-styleable>
 
+
     <declare-styleable name="WidgetAttr">
         <attr name="textColor" format="color" />
         <attr name="template" format="reference" />
         <attr name="loadView" format="reference" />
+        <attr name="editLayout" format="reference" />
     </declare-styleable>
 
 

@@ -4,7 +4,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.cz.library.widget.EditLayout
+    <com.cz.library.widget.editlayout.EditLayout
         android:id="@+id/search_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>

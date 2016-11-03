@@ -13,19 +13,15 @@
         android:scaleType="fitCenter"
         android:layout_margin="12dp" />
 
-    <EditText
-        android:id="@+id/et_editor"
+    <ViewStub
+        android:id="@+id/view_stub"
         android:layout_width="0dp"
         android:layout_weight="1"
+        android:layout_height="match_parent"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:textCursorDrawable="@null"
-        android:layout_gravity="center_vertical"
-        android:gravity="left|center_vertical"
-        android:background="@color/transparent"
-        android:layout_height="match_parent"
-        android:inputType="text"
-        android:singleLine="true"/>
+        android:inflatedId="@+id/et_editor"
+        android:layout="?editLayout" />
 
     <ImageView
         android:id="@+id/iv_delete_icon"

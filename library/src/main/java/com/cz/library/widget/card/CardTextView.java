@@ -21,6 +21,7 @@ import com.cz.library.widget.DivideTextView;
  * Created by czz on 2016/9/27.
  */
 public class CardTextView extends DivideTextView {
+    private static final long DELAYED_TIME = 300;
     public static final int RIPPLE_SHAPE=0x00;
     public static final int RIPPLE_FULL=0x01;
     private final ShadowDrawable shadowDrawable;
@@ -209,6 +210,22 @@ public class CardTextView extends DivideTextView {
         if (null!=foreground) {
             foreground.draw(canvas);
         }
+    }
+
+    @Override
+    public boolean performClick() {
+        boolean result=true;
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
+            result=super.performClick();
+        } else {
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    CardTextView.super.performClick();
+                }
+            },DELAYED_TIME);
+        }
+        return result;
     }
 
     @Override

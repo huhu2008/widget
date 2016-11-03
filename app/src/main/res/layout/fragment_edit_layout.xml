@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="@string/patter_text1"/>
 
-    <com.cz.library.widget.EditLayout
+    <com.cz.library.widget.editlayout.EditLayout
         android:id="@+id/sv_edit_view1"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -30,14 +30,14 @@
             android:src="@drawable/article_flag1"
             android:layout_marginLeft="8dp"
             android:layout_gravity="center_vertical"/>
-        </com.cz.library.widget.EditLayout>
+        </com.cz.library.widget.editlayout.EditLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/patter_text2"/>
 
-    <com.cz.library.widget.EditLayout
+    <com.cz.library.widget.editlayout.EditLayout
         android:id="@+id/sv_edit_view2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -61,14 +61,14 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:layout_gravity="center_vertical"/>
-    </com.cz.library.widget.EditLayout>
+    </com.cz.library.widget.editlayout.EditLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/patter_text3"/>
 
-    <com.cz.library.widget.EditLayout
+    <com.cz.library.widget.editlayout.EditLayout
         android:id="@+id/sv_edit_view3"
         android:layout_width="match_parent"
         android:layout_height="50dp"

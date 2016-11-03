@@ -1,4 +1,4 @@
-package com.cz.library.widget;
+package com.cz.library.widget.editlayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -13,15 +13,15 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.EditText;
+import android.view.ViewStub;
 import android.widget.ImageView;
 
 import com.cz.library.R;
+import com.cz.library.widget.DivideLinearLayout;
 import com.cz.library.widget.validator.Validator;
 import com.cz.library.widget.validator.ValidatorObserver;
 import com.cz.library.widget.validator.impl.LengthValidator;
@@ -57,7 +57,7 @@ import java.util.regex.Pattern;
  *
  * 示例见:module app-> EditLayoutFragment
  */
-public class EditLayout extends DivideLinearLayout {
+public class EditLayout<V extends IEditText> extends DivideLinearLayout {
     private static final String TAG = "EditLayout";
 
     public static final int VALIDATOR_NOT_EMPTY=0x01<<0;
@@ -89,7 +89,7 @@ public class EditLayout extends DivideLinearLayout {
     private final SparseArray<String> validatorItemValues;
     private OnFocusChangeListener onFocusChangeListener;
     private ImageView hintView;
-    private EditText editor;
+    private V editor;
     private ImageView deleteView;
     private int errorTextColor;
     private OnTextChangeListener listener;
@@ -109,8 +109,11 @@ public class EditLayout extends DivideLinearLayout {
 
         this.validatorItems=new ArrayList<>();
         this.validatorItemValues=new SparseArray<>();
+        ViewStub editViewStub= (ViewStub) findViewById(R.id.view_stub);
+        editViewStub.inflate();
+
         hintView= (ImageView) findViewById(R.id.iv_hint_icon);
-        editor= (EditText) findViewById(R.id.et_editor);
+        editor= (V) findViewById(R.id.et_editor);
         deleteView= (ImageView) findViewById(R.id.iv_delete_icon);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EditLayout);
@@ -290,7 +293,6 @@ public class EditLayout extends DivideLinearLayout {
     }
 
     public void setEditError(String text) {
-        Log.e(TAG,"text:"+text);
         this.editError=text;
     }
 
@@ -404,7 +406,7 @@ public class EditLayout extends DivideLinearLayout {
         return result&(patternMatches|!patternResult);
     }
 
-    public EditText getEditor(){
+    public V getEditor(){
         return editor;
     }
 

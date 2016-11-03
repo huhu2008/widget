@@ -21,6 +21,7 @@ import com.cz.library.util.Utils;
  * Created by czz on 2016/9/27.
  */
 public class CardRelativeLayout extends RelativeLayout {
+    private static final long DELAYED_TIME = 300;
     public static final int RIPPLE_SHAPE=0x00;
     public static final int RIPPLE_FULL=0x01;
     private final ShadowDrawable shadowDrawable;
@@ -211,6 +212,22 @@ public class CardRelativeLayout extends RelativeLayout {
         if (null != foreground) {
             foreground.draw(canvas);
         }
+    }
+
+    @Override
+    public boolean performClick() {
+        boolean result=true;
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
+            result=super.performClick();
+        } else {
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    CardRelativeLayout.super.performClick();
+                }
+            },DELAYED_TIME);
+        }
+        return result;
     }
 
     @Override

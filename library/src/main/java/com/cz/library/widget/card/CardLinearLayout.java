@@ -21,6 +21,7 @@ import com.cz.library.util.Utils;
  * Created by czz on 2016/9/27.
  */
 public class CardLinearLayout extends LinearLayout{
+    private static final int DELAYED_TIME=300;
     public static final int RIPPLE_SHAPE=0x00;
     public static final int RIPPLE_FULL=0x01;
     private final ShadowDrawable shadowDrawable;
@@ -28,6 +29,7 @@ public class CardLinearLayout extends LinearLayout{
     private int horizontalPadding;
     private int verticalPadding;
     private Drawable foreground;
+    private OnClickListener listener;
     private int rippleMode;
 
     public CardLinearLayout(Context context) {
@@ -203,6 +205,10 @@ public class CardLinearLayout extends LinearLayout{
         }
     }
 
+    @Override
+    public void setOnClickListener(OnClickListener l) {
+        this.listener=l;
+    }
 
     @Override
     public void draw(Canvas canvas) {
@@ -212,6 +218,23 @@ public class CardLinearLayout extends LinearLayout{
             foreground.draw(canvas);
         }
     }
+
+    @Override
+    public boolean performClick() {
+        boolean result=true;
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
+            result=super.performClick();
+        } else {
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    CardLinearLayout.super.performClick();
+                }
+            },DELAYED_TIME);
+        }
+        return result;
+    }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
