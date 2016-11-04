@@ -109,12 +109,7 @@ public class EditLayout<V extends IEditText> extends DivideLinearLayout {
 
         this.validatorItems=new ArrayList<>();
         this.validatorItemValues=new SparseArray<>();
-        ViewStub editViewStub= (ViewStub) findViewById(R.id.view_stub);
-        editViewStub.inflate();
-
-        hintView= (ImageView) findViewById(R.id.iv_hint_icon);
-        editor= (V) findViewById(R.id.et_editor);
-        deleteView= (ImageView) findViewById(R.id.iv_delete_icon);
+        initView();
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EditLayout);
         setHintDrawable(a.getDrawable(R.styleable.EditLayout_sv_hintDrawable));
@@ -135,6 +130,59 @@ public class EditLayout<V extends IEditText> extends DivideLinearLayout {
         setEditMaxLength(a.getInteger(R.styleable.EditLayout_sv_editMaxLength, Short.MAX_VALUE));
         setEditMaxLine(a.getInteger(R.styleable.EditLayout_sv_editMaxLine,1));
         a.recycle();
+    }
+
+    private void initView() {
+        ViewStub editViewStub= (ViewStub) findViewById(R.id.view_stub);
+        editViewStub.inflate();
+
+        hintView= (ImageView) findViewById(R.id.iv_hint_icon);
+        editor= (V) findViewById(R.id.et_editor);
+        deleteView= (ImageView) findViewById(R.id.iv_delete_icon);
+
+        deleteView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(editor.getText())) {
+                    editor.setText(null);
+                    v.setVisibility(View.GONE);
+                }
+            }
+        });
+        editor.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(null!=onFocusChangeListener){
+                    onFocusChangeListener.onFocusChange(view,b);
+                }
+                setSelected(b);
+                hintView.setSelected(b);
+            }
+        });
+        editor.addTextChangedListener(new TextWatcher() {
+            private CharSequence lastItem = null;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //标记异常颜色
+                if(NO_ID!=errorTextColor){
+                    editor.setTextColor(isValid()?textColor:errorTextColor);
+                }
+                deleteView.setVisibility(TextUtils.isEmpty(editor.getText()) ? View.GONE : View.VISIBLE);
+                if (null != listener) {
+                    listener.onTextChanged(s, lastItem, count);
+                }
+                lastItem = s;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
 
@@ -174,53 +222,6 @@ public class EditLayout<V extends IEditText> extends DivideLinearLayout {
         return attrType;
     }
 
-
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        deleteView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(editor.getText())) {
-                    editor.setText(null);
-                    v.setVisibility(View.GONE);
-                }
-            }
-        });
-        editor.setOnFocusChangeListener(new OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                hintView.setSelected(b);
-                if(null!=onFocusChangeListener){
-                    onFocusChangeListener.onFocusChange(view,b);
-                }
-            }
-        });
-        editor.addTextChangedListener(new TextWatcher() {
-            private CharSequence lastItem = null;
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //标记异常颜色
-                if(NO_ID!=errorTextColor){
-                    editor.setTextColor(isValid()?textColor:errorTextColor);
-                }
-                deleteView.setVisibility(TextUtils.isEmpty(editor.getText()) ? View.GONE : View.VISIBLE);
-                if (null != listener) {
-                    listener.onTextChanged(s, lastItem, count);
-                }
-                lastItem = s;
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-    }
 
     public void setOnFocusChangeListener(OnFocusChangeListener listener){
         this.onFocusChangeListener=listener;

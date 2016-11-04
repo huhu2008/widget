@@ -1,7 +1,6 @@
 package com.cz.app.widget;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -31,6 +30,12 @@ public class MyTextInputLayout extends TextInputLayout implements IEditText {
         super(context, attrs, defStyleAttr);
         inflate(context, com.cz.library.R.layout.edit_view,this);
         editor= (EditText) findViewById(R.id.et_editor);
+    }
+
+    @Override
+    public void setOnFocusChangeListener(OnFocusChangeListener l) {
+        super.setOnFocusChangeListener(l);
+        editor.setOnFocusChangeListener(l);
     }
 
     @Override

@@ -107,6 +107,7 @@
             android:layout_gravity="center_horizontal"
             auto:cr_cardBackgroundColor="@color/white"
             auto:cr_cardBackgroundPressColor="@color/green"
+            auto:cr_cardRippleMode="full"
             auto:cr_verticalPadding="2dp">
 
 

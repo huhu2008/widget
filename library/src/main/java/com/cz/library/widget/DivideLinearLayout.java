@@ -145,6 +145,38 @@ public class DivideLinearLayout extends LinearLayout {
     }
 
     @Override
+    public Drawable getDividerDrawable() {
+        return divideDrawable;
+    }
+
+    public Drawable getItemDividerDrawable() {
+        return itemDivideDrawable;
+    }
+
+    @Override
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        if (null!=divideDrawable) {
+            divideDrawable.setState(getDrawableState());
+        }
+        if (null!=itemDivideDrawable) {
+            itemDivideDrawable.setState(getDrawableState());
+        }
+    }
+
+
+    @Override
+    public void jumpDrawablesToCurrentState() {
+        super.jumpDrawablesToCurrentState();
+        if (null!=divideDrawable) {
+            divideDrawable.jumpToCurrentState();
+        }
+        if (null!=itemDivideDrawable) {
+            itemDivideDrawable.jumpToCurrentState();
+        }
+    }
+
+    @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
         // 绘制周边分隔线
